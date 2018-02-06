@@ -13,7 +13,7 @@
       /* Muted: #DFDCE3 */
       html {
         font-size: 32px;
-        color: #222a;
+        color: rgba(255,255,255,0.8);
         background: url(/images/gaming/playing1.jpg) no-repeat center center fixed;
         background-size: cover;
       }
@@ -29,6 +29,7 @@
       }
       body {
         margin: 0;
+        z-index: 1;
       }
       .overlay-color {
         position: fixed;
@@ -59,7 +60,7 @@
         top: 0;
         margin: 0.75rem;
         font-size: 1.5rem;
-        color: white;
+        color: #fff;
         text-shadow: 3px 3px 2px #000;
       }
       .card-top img {
@@ -69,16 +70,18 @@
       .card-bottom {
         padding: 0.75em;
       }
+      .card-bottom small {
+        display: block;
+        font-size: 1rem;
+        top: 1rem;
+      }
       .card.bold .card-bottom {
+        color: #fff;
         background-color: #FC4A14;
-        text-shadow: 0.5px 0.5px 0.5px #111d;
+        text-shadow: 2px 2px 2px #111d;
       }
       .card.bold .card-top img {
         filter: brightness(75%) grayscale(100%);
-      }
-      .card-bottom small {
-        position: absolute;
-        top: 1rem;
       }
       @supports (display: grid) {
         @media (min-width: 500px) {
