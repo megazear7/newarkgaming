@@ -13,8 +13,7 @@
       /* Muted: #DFDCE3 */
       html {
         font-size: 32px;
-        color: #111d;
-        text-shadow: 0.5px 0.5px 0.5px #dddd;
+        color: #222a;
         background: url(/images/gaming/playing1.jpg) no-repeat center center fixed;
         background-size: cover;
       }
@@ -32,7 +31,7 @@
         margin: 0;
       }
       .overlay-color {
-        position: absolute;
+        position: fixed;
         z-index: -1;
         top: 0;
         width: 100%;
@@ -40,24 +39,87 @@
         background-color: #4ABDACaa;
       }
       .container {
-        margin: 1rem auto 0;
-        max-width: 1000px;
+        margin: 1rem;
+      }
+      .card {
+        background-color: #fff;
+        border-radius: 2px;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        margin-bottom: 0.5rem;
+        border-top: 5px solid #FC4A14;
+      }
+      .card-top {
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid #F78733;
+        max-height: 10rem;
+      }
+      .card-top .card-header {
+        position: absolute;
+        top: 0;
+        margin: 0.75rem;
+        font-size: 1.5rem;
+        color: white;
+        text-shadow: 3px 3px 2px #000;
+      }
+      .card-top img {
+        width: 100%;
+        vertical-align: bottom;
+      }
+      .card-bottom {
+        padding: 0.75em;
+      }
+      .card.bold .card-bottom {
+        background-color: #FC4A14;
+        text-shadow: 0.5px 0.5px 0.5px #111d;
+      }
+      .card.bold .card-top img {
+        filter: brightness(75%) grayscale(100%);
+      }
+      .card-bottom small {
+        position: absolute;
+        top: 1rem;
       }
       @supports (display: grid) {
+        @media (min-width: 500px) {
+          .card-top .card-header {
+            font-size: 2rem;
+          }
+        }
+        @media (min-width: 600px) {
+          .card-top .card-header {
+            font-size: 2.25rem;
+          }
+        }
+        @media (min-width: 700px) {
+          .card-top .card-header {
+            font-size: 3rem;
+          }
+        }
         @media (min-width: 800px) {
           .container {
             display: grid;
             grid-gap: 1rem;
-            grid-template-columns: 1fr 1fr 1fr;
-            grid-template-rows: auto auto auto 1fr;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr;
             grid-template-areas:
               "a a"
               "b c"
-              "d e";
+              "d e"
+              "f g";
+          }
+          .card {
+            margin-bottom: 0;
+            border-top: none;
+          }
+          .card-top .card-header {
+            font-size: 1.75rem;
           }
         }
-        @media (min-width: 1100px) {
+        @media (min-width: 1000px) {
           .container {
+            max-width: 1000px;
+            margin: 1rem auto;
             grid-template-columns: 1fr 1fr 1fr;
             grid-template-rows: auto auto auto 1fr;
             grid-template-areas:
@@ -65,6 +127,9 @@
               "b c c"
               "d d e"
               "f g g";
+          }
+          .card-top .card-header {
+            font-size: 1.75rem;
           }
         }
         .card-a {
@@ -89,42 +154,30 @@
           grid-area: g;
         }
       }
-      .card {
-        background-color: #fff;
-        border-radius: 2px;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-      }
-      .card-top {
-        position: relative;
-        overflow: hidden;
-        border-bottom: 1px solid #F78733;
-      }
-      .card-top .card-header {
-        position: absolute;
-        top: 0;
-        margin: 0.75rem;
-        font-size: 1.75rem;
-        color: white;
-        text-shadow: 2px 2px 2px #000;
-      }
-      .card-top img {
-        width: 100%;
-        vertical-align: bottom;
-      }
-      .card-bottom {
-        padding: 0.75em;
-      }
     </style>
   </head>
   <body>
     <div class="overlay-color"></div>
     <div class="container">
-      <div class="card card-a">
-        <h1>Newark Gaming</h1>
+      <div class="card card-a bold">
+        <div class="card-bottom">
+          <h1><small>the</small> Newark Gaming Group</h1>
+        </div>
       </div>
       <div class="card card-b">
         <div class="card-top">
-          <img src="/images/gaming/game1.jpg">
+          <img src="/images/gaming/game2.jpg">
+          <div class="card-header">
+            Game: Carcassonne
+          </div>
+        </div>
+        <div class="card-bottom">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </div>
+      </div>
+      <div class="card card-c">
+        <div class="card-top">
+          <img src="/images/gaming/playing2.jpg">
           <div class="card-header">
             Game Night: February 10th
           </div>
@@ -133,20 +186,49 @@
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </div>
       </div>
-      <div class="card card-c">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      </div>
       <div class="card card-d">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        <div class="card-top">
+          <img src="/images/gaming/playing1.jpg">
+          <div class="card-header">
+            Game Night: January 13th
+          </div>
+        </div>
+        <div class="card-bottom">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </div>
       </div>
-      <div class="card card-e">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      <div class="card card-e bold">
+        <div class="card-top">
+          <img src="/images/gaming/stack1.jpg">
+          <div class="card-header">
+            What is the Newark Gaming Group?
+          </div>
+        </div>
+        <div class="card-bottom">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </div>
       </div>
       <div class="card card-f">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        <div class="card-top">
+          <img src="/images/gaming/meeples1.jpg">
+          <div class="card-header">
+            On the Horizon: March
+          </div>
+        </div>
+        <div class="card-bottom">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </div>
       </div>
       <div class="card card-g">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        <div class="card-top">
+          <img src="/images/gaming/game4.jpg">
+          <div class="card-header">
+            Game: Deception Murder in Hong Kong
+          </div>
+        </div>
+        <div class="card-bottom">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </div>
       </div>
     </div>
 
