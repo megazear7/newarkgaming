@@ -1,0 +1,25 @@
+{
+  "name": "Newark Gaming",
+  "short_name": "Newark Gaming",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#53ecc9",
+  "description": "A site for the latest information on the newark gaming group.",
+  "icons": [{
+    "src": "/images/logo/meeple-27.png",
+    "sizes": "27x27",
+    "type": "image/png"
+  }, {
+    "src": "/images/logo/meeple-132.png",
+    "sizes": "132x132",
+    "type": "image/png"
+  }, {
+    "src": "/images/logo/meeple-263.png",
+    "sizes": "263x263",
+    "type": "image/png"
+  }, {
+    "src": "/images/logo/meeple-512.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }]
+}

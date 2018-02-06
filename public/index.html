@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="icon" type="image/png" href="/images/logo/meeple-132.png" />
+    <title>Newark Gaming</title>
+    <style>
+      /* Primary: #4ABDAC*/
+      /* Secondary: #FC4A14 */
+      /* Action: #F78733 */
+      /* Muted: #DFDCE3 */
+      html {
+        font-size: 32px;
+        color: #111d;
+        text-shadow: 0.5px 0.5px 0.5px #dddd;
+        background: url(/images/gaming/playing1.jpg) no-repeat center center fixed;
+        background-size: cover;
+      }
+      @media (min-width: 800px) {
+        html {
+          font-size: 28px;
+        }
+      }
+      @media (min-width: 1100px) {
+        html {
+          font-size: 24px;
+        }
+      }
+      body {
+        margin: 0;
+      }
+      .overlay-color {
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #4ABDACaa;
+      }
+      .container {
+        margin: 1rem auto 0;
+        max-width: 1000px;
+      }
+      @supports (display: grid) {
+        @media (min-width: 800px) {
+          .container {
+            display: grid;
+            grid-gap: 1rem;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto auto auto 1fr;
+            grid-template-areas:
+              "a a"
+              "b c"
+              "d e";
+          }
+        }
+        @media (min-width: 1100px) {
+          .container {
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto auto auto 1fr;
+            grid-template-areas:
+              "a a a"
+              "b c c"
+              "d d e"
+              "f g g";
+          }
+        }
+        .card-a {
+          grid-area: a;
+        }
+        .card-b {
+          grid-area: b;
+        }
+        .card-c {
+          grid-area: c;
+        }
+        .card-d {
+          grid-area: d;
+        }
+        .card-e {
+          grid-area: e;
+        }
+        .card-f {
+          grid-area: f;
+        }
+        .card-g {
+          grid-area: g;
+        }
+      }
+      .card {
+        background-color: #fff;
+        border-radius: 2px;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+      }
+      .card-top {
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid #F78733;
+      }
+      .card-top .card-header {
+        position: absolute;
+        top: 0;
+        margin: 0.75rem;
+        font-size: 1.75rem;
+        color: white;
+        text-shadow: 2px 2px 2px #000;
+      }
+      .card-top img {
+        width: 100%;
+        vertical-align: bottom;
+      }
+      .card-bottom {
+        padding: 0.75em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="overlay-color"></div>
+    <div class="container">
+      <div class="card card-a">
+        <h1>Newark Gaming</h1>
+      </div>
+      <div class="card card-b">
+        <div class="card-top">
+          <img src="/images/gaming/game1.jpg">
+          <div class="card-header">
+            Game Night: February 10th
+          </div>
+        </div>
+        <div class="card-bottom">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </div>
+      </div>
+      <div class="card card-c">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </div>
+      <div class="card card-d">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </div>
+      <div class="card card-e">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </div>
+      <div class="card card-f">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </div>
+      <div class="card card-g">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyDZqVEfoyeKhdpNw-tdkvlojxnFB1vk1nY",
+        authDomain: "newarkgaming.firebaseapp.com",
+        databaseURL: "https://newarkgaming.firebaseio.com",
+        projectId: "newarkgaming",
+        storageBucket: "newarkgaming.appspot.com",
+        messagingSenderId: "652674419581"
+      };
+      firebase.initializeApp(config);
+    </script>
+    <script type="text/javascript">
+      if ('serviceWorker' in navigator && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+        navigator.serviceWorker.register('/service-worker.js');
+      }
+    </script>
+  </body>
+</html>
