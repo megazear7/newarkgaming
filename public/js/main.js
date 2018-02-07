@@ -1,9 +1,18 @@
 document.querySelectorAll('img').forEach((img) => {
-  console.log("A");
+  var loaded = false;
   img.addEventListener('load', () => {
-    console.log("B");
     img.style.opacity = '1';
+    loaded = true;
   });
+
+  // Can we gauruntee that the load event will fire? It doesn't seem like it.
+  // So this is a backup to make sure the images appear.
+  setTimeout(() => {
+    if (! loaded) {
+      img.style.opacity = '1';
+    } else {
+    }
+  }, 5000);
 });
 
 var backgroundImage = new Image()
