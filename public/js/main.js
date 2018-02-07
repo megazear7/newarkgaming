@@ -1,3 +1,5 @@
+import TnngCard from "/js/tngg-card.js";
+
 document.querySelectorAll('img').forEach((img) => {
   var loaded = false;
   img.addEventListener('load', () => {

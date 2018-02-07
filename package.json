@@ -1,0 +1,15 @@
+{
+  "name": "newarkgaming",
+  "version": "1.0.0",
+  "description": "",
+  "main": "/public/js/main.js",
+  "dependencies": {
+    "lit-html": "^0.9.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alex Lockhart",
+  "license": "ISC"
+}
