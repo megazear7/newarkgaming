@@ -33,21 +33,19 @@ body {
   border-radius: 2px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   margin-bottom: 0.5rem;
-  border-top: 5px solid #FC4A14;
 }
 
 .card-top {
+  border-radius: 2px 2px 0 0;
   position: relative;
   overflow: hidden;
   border-bottom: 2px solid #F78733;
-  height: 8rem;
-  background-color: #FC4A14;
 }
 
 .card-top .card-header {
   box-sizing: border-box;
-  position: absolute;
-  top: 0;
+  z-index: 2;
+  position: relative;
   width: 100%;
   margin: 0.5rem 0;
   padding: 0.5rem 1rem;
@@ -55,13 +53,18 @@ body {
   color: #fff;
   text-shadow: 3px 3px 2px #000;
   background-color: #FC4A1499;
+  min-height: 6rem;
 }
 
 .card-top img {
+  position: absolute;
+  z-index: 1;
+  top: 0;
   opacity: 0;
   transition: opacity 1s;
   width: 100%;
   vertical-align: bottom;
+  border-radius: 2px 2px 0 0;
 }
 
 .card-bottom {
@@ -74,32 +77,21 @@ body {
   top: 1rem;
 }
 
+.card.no-image .card-header {
+  background-color: #FC4A14;
+  margin: 0;
+}
+
 .card.bold .card-bottom {
   color: #fff;
   background-color: #FC4A14;
   text-shadow: 2px 2px 2px #111d;
 }
 
-.card.bold .card-top img {
-  filter: brightness(75%) grayscale(100%);
-}
-
 @supports (display: grid) {
-  @media (min-width: 500px) {
-    .card-top .card-header {
-      font-size: 2rem;
-    }
-  }
-
   @media (min-width: 600px) {
     .card-top .card-header {
       font-size: 2.25rem;
-    }
-  }
-
-  @media (min-width: 700px) {
-    .card-top .card-header {
-      font-size: 3rem;
     }
   }
 
