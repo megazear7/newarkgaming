@@ -6,7 +6,6 @@
 html {
   font-size: 32px;
   color: #222d;
-  background-size: cover;
 }
 
 body {
@@ -40,18 +39,22 @@ body {
 .card-top {
   position: relative;
   overflow: hidden;
-  border-bottom: 1px solid #F78733;
+  border-bottom: 2px solid #F78733;
   height: 8rem;
   background-color: #FC4A14;
 }
 
 .card-top .card-header {
+  box-sizing: border-box;
   position: absolute;
   top: 0;
-  margin: 0.75rem;
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.5rem 1rem;
   font-size: 1.5rem;
   color: #fff;
   text-shadow: 3px 3px 2px #000;
+  background-color: #FC4A1499;
 }
 
 .card-top img {
