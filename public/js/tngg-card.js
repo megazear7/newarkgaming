@@ -112,12 +112,6 @@ export default class TnggCard extends HTMLElement {
         padding: 0.75em;
       }
 
-      .card-bottom small {
-        display: block;
-        font-size: 1rem;
-        top: 1rem;
-      }
-
       .card.no-image .card-header {
         background: none;
       }

@@ -28,6 +28,12 @@ body {
   transition: opacity 1s;
 }
 
+tngg-card small {
+  display: block;
+  font-size: 1rem;
+  top: 1rem;
+}
+
 @supports (display: grid) {
   @media (min-width: 800px) {
     html {
