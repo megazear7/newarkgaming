@@ -4,7 +4,7 @@
 /* Muted: #DFDCE3 */
 
 html {
-  font-size: 32px;
+  font-size: 28px;
   color: #222d;
 }
 
@@ -40,6 +40,7 @@ body {
   position: relative;
   overflow: hidden;
   border-bottom: 2px solid #F78733;
+  background-color: #FC4A14;
 }
 
 .card-top .card-header {
@@ -47,13 +48,12 @@ body {
   z-index: 2;
   position: relative;
   width: 100%;
-  margin: 0.5rem 0;
-  padding: 0.5rem 1rem;
+  padding: 1rem 1rem;
   font-size: 1.5rem;
   color: #fff;
   text-shadow: 3px 3px 2px #000;
   background-color: #FC4A1499;
-  min-height: 6rem;
+  background-color: #7e798699;
 }
 
 .card-top img {
@@ -78,8 +78,7 @@ body {
 }
 
 .card.no-image .card-header {
-  background-color: #FC4A14;
-  margin: 0;
+  background: none;
 }
 
 .card.bold .card-bottom {
@@ -97,7 +96,7 @@ body {
 
   @media (min-width: 800px) {
     html {
-      font-size: 28px;
+      font-size: 26px;
     }
 
     .container {
