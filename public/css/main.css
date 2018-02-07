@@ -28,18 +28,8 @@ body {
   transition: opacity 1s;
 }
 
-tngg-card small {
-  display: block;
-  font-size: 1rem;
-  top: 1rem;
-}
-
 @supports (display: grid) {
   @media (min-width: 800px) {
-    html {
-      font-size: 26px;
-    }
-
     .container {
       display: grid;
       grid-gap: 1rem;
@@ -51,13 +41,37 @@ tngg-card small {
         "d e"
         "f g";
     }
+
+    .card-a {
+      grid-area: a;
+    }
+
+    .card-b {
+      grid-area: b;
+    }
+
+    .card-c {
+      grid-area: c;
+    }
+
+    .card-d {
+      grid-area: d;
+    }
+
+    .card-e {
+      grid-area: e;
+    }
+
+    .card-f {
+      grid-area: f;
+    }
+
+    .card-g {
+      grid-area: g;
+    }
   }
 
   @media (min-width: 1000px) {
-    html {
-      font-size: 24px;
-    }
-
     .container {
       max-width: 1000px;
       margin: 1rem auto;
@@ -70,33 +84,30 @@ tngg-card small {
         "f g g";
     }
   }
+}
 
-  .card-a {
-    grid-area: a;
+tngg-card {
+  margin-bottom: 1rem;
+}
+
+tngg-card small {
+  display: block;
+  font-size: 1rem;
+  top: 1rem;
+}
+
+tngg-card span[slot='title'] {
+  font-size: 1.5rem;
+}
+
+@media (min-width: 800px) {
+  html {
+    font-size: 26px;
   }
+}
 
-  .card-b {
-    grid-area: b;
+@media (min-width: 1000px) {
+  html {
+    font-size: 24px;
   }
-
-  .card-c {
-    grid-area: c;
-  }
-
-  .card-d {
-    grid-area: d;
-  }
-
-  .card-e {
-    grid-area: e;
-  }
-
-  .card-f {
-    grid-area: f;
-  }
-
-  .card-g {
-    grid-area: g;
-  }
-
 }
