@@ -64,7 +64,7 @@ body {
   transition: opacity 1s;
   width: 100%;
   vertical-align: bottom;
-  border-radius: 2px 2px 0 0;
+  border-radius: 2px 0;
 }
 
 .card-bottom {
@@ -84,6 +84,7 @@ body {
 .card.bold .card-bottom {
   color: #fff;
   background-color: #FC4A14;
+  border-radius: 2px;
   text-shadow: 2px 2px 2px #111d;
 }
 
