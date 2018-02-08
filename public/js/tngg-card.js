@@ -14,6 +14,12 @@ export default class TnggCard extends HTMLElement {
   get bold() { return this._bold; }
   set bold(v) { this._bold = v; this.render() }
 
+  get open() { return this._open; }
+  set open(v) { this._open = v; this.render() }
+
+  get nonopenable() { return this._nonopenable; }
+  set nonopenable(v) { this._nonopenable = v; this.render() }
+
   constructor() {
     super();
     this.attachShadow({mode: "open"});
@@ -21,6 +27,8 @@ export default class TnggCard extends HTMLElement {
     this._banner = this.getAttribute("banner") != undefined && this.getAttribute("banner") != null;
     this._image = this.getAttribute("image");
     this._bold = this.getAttribute("bold") != undefined && this.getAttribute("bold") != null;
+    this._open = this.getAttribute("open") != undefined && this.getAttribute("open") != null;
+    this._nonopenable = this.getAttribute("nonopenable") != undefined && this.getAttribute("nonopenable") != null;
 
     this.render();
     this._loadImages();
@@ -29,11 +37,71 @@ export default class TnggCard extends HTMLElement {
   render() {
     render(html`
       ${this._styles()}
-      <div class="card ${this.bold ? 'bold' : ''} ${this.image ? '' : 'no-image'}">
+      <div class="card ${this.bold ? 'bold' : ''} ${this.image ? '' : 'no-image'} ${this.nonopenable ? 'nonopenable' : 'openable'}">
         ${this._top()}
         ${this._bottom()}
       </div>
+      <div class="open-view ${this.open ? 'open' : ''}">
+        <div class="open-wrapper">
+          <div class="exit">X</div>
+          <slot name="opened">
+        </div>
+      </div>
     `, this.shadowRoot);
+
+    if (! this.nonopenable) {
+      this._addEventHandlers();
+    }
+  }
+
+  _addEventHandlers() {
+    var card = this.shadowRoot.querySelector(".card")
+    var openView = this.shadowRoot.querySelector(".open-view")
+    var exit = this.shadowRoot.querySelector(".open-view .exit")
+    var rect;
+
+    var cardClicked = (event) => {
+      card.removeEventListener("click", cardClicked);
+      this.open = true;
+
+      rect = card.getBoundingClientRect();
+
+      openView.style.display = "block";
+      openView.style.position = "fixed";
+      openView.style.top = rect.top + "px";
+      openView.style.left = rect.left + "px";
+      openView.style.width = rect.width + "px";
+      openView.style.height = rect.height + "px";
+      openView.style.zIndex = "100";
+
+      setTimeout(() => {
+        openView.style.width = window.innerWidth + "px";
+        openView.style.height = window.innerHeight + "px";
+        openView.style.left = "0";
+        openView.style.top = "0";
+      }, 10)
+    };
+
+    var exitClicked = (event) => {
+      exit.removeEventListener("click", exitClicked);
+      card.removeEventListener("click", cardClicked);
+      this.open = false;
+
+      openView.style.display = "block";
+      openView.style.position = "fixed";
+      openView.style.top = rect.top + "px";
+      openView.style.left = rect.left + "px";
+      openView.style.width = rect.width + "px";
+      openView.style.height = rect.height + "px";
+      openView.style.zIndex = "100";
+
+      setTimeout(() => {
+        openView.style.display = "none";
+      }, 1000)
+    };
+
+    exit.addEventListener("click", exitClicked);
+    card.addEventListener("click", cardClicked);
   }
 
   _top() {
@@ -77,8 +145,17 @@ export default class TnggCard extends HTMLElement {
         background-color: #fff;
         border-radius: 3px;
         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        transition: box-shadow 0.3s cubic-bezier(.25,.8,.25,1);
         height: 100%;
         overflow: hidden;
+      }
+
+      .card.openable {
+        cursor: pointer;
+      }
+
+      .card.openable:hover {
+        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
       }
 
       .card-top {
@@ -118,6 +195,78 @@ export default class TnggCard extends HTMLElement {
         background-color: #FC4A14;
         text-shadow: 2px 2px 2px #111d;
       }
+
+      .open-view {
+        display: none;
+        opacity: 0;
+        background: url(${this.image}) center center / cover no-repeat fixed;
+        transition: width 0.5s, height 0.5s, top 0.5s, left 0.5s, opacity 1s;
+      }
+
+      .open-view.open {
+        opacity: 1;
+      }
+
+      .open-view .exit {
+        font-size: 35px;
+        line-height: 35px;
+        width: 35px;
+        text-align: center;
+        border-radius: 50px;
+        border: 3px solid #fff;
+        cursor: pointer;
+        float: right;
+        transition: box-shadow 0.5s, transform 0.5s;
+      }
+
+      .open-view .exit:hover {
+        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+        transform: rotate(360deg);
+      }
+
+      .open-view .open-wrapper {
+        height: 100%;
+        color: #fff;
+        background-color: #7e798699;
+        padding: 50px;
+      }
+
+      /*
+      .card.open {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+        background: url(${this.image}) center center / cover no-repeat fixed;
+      }
+
+      .card.open .card-top {
+        height: 25%;
+      }
+
+      .card.open img {
+        display: none;
+      }
+
+      .card.open .card-top {
+        background: none;
+      }
+
+      .card.open .card-header {
+        height: 100%;
+      }
+
+      .card.open .card-bottom {
+        height: 75%;
+        background-color: #7e798699;
+      }
+
+      .card.open .card-top {
+        border-bottom: none;
+      }
+      */
     </style>`;
   }
 }
