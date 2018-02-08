@@ -38,11 +38,11 @@ export default class TnggCard extends LitElement {
     return html`
       ${this._styles()}
       <div class$="card ${this.bold ? 'bold' : ''} ${this.image ? '' : 'no-image'} ${this.nonopenable ? 'nonopenable' : 'openable'}"
-           on-click=${() => this.openCard()}>
+           on-click=${() => this.nonopenable ? '' : this.openCard()}>
         ${this._top()}
         ${this._bottom()}
       </div>
-      <div class$="open-view ${this.open ? 'open' : ''}">
+      <div class$="open-view ${this.open ? 'open' : ''} ${this.image ? '' : 'no-image'}">
         <div class="open-wrapper">
           <div class="exit" on-click=${() => this.closeCard()}>X</div>
           <slot name="opened">
@@ -61,7 +61,6 @@ export default class TnggCard extends LitElement {
     var openView = this.shadowRoot.querySelector(".open-view")
     var save = { };
     this._rect = card.getBoundingClientRect();
-
     this.open = true;
 
     var viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
@@ -85,8 +84,8 @@ export default class TnggCard extends LitElement {
       setTimeout(() => {
         openView.style.width = "100%";
         openView.style.height = "100%";
-      }, 600);
-    }, 10);
+      }, 200);
+    }, 200);
   }
 
   closeCard(event) {
@@ -104,11 +103,11 @@ export default class TnggCard extends LitElement {
     openView.style.zIndex = "100";
 
     setTimeout(() => {
+      openView.style.height = "0";
       this.open = false;
       setTimeout(() => {
-        openView.style.display = "none";
-      }, 300)
-    }, 300)
+      }, 200)
+    }, 200)
   }
 
   _top() {
@@ -152,7 +151,7 @@ export default class TnggCard extends LitElement {
         background-color: #fff;
         border-radius: 3px;
         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-        transition: box-shadow 0.3s cubic-bezier(.25,.8,.25,1);
+        transition: box-shadow 200ms cubic-bezier(.25,.8,.25,1);
         height: 100%;
         overflow: hidden;
       }
@@ -185,7 +184,7 @@ export default class TnggCard extends LitElement {
         position: absolute;
         top: 0;
         opacity: 0;
-        transition: opacity 0.3s;
+        transition: opacity 200ms;
         width: 100%;
       }
 
@@ -204,11 +203,15 @@ export default class TnggCard extends LitElement {
       }
 
       .open-view {
-        display: none;
+        height: 0;
         overflow: hidden;
         opacity: 0;
         background: url(${this.image}) center center / cover no-repeat fixed;
-        transition: width 0.3s, height 0.3s, top 0.3s, left 0.3s, opacity 0.3s;
+        transition: width 200ms, height 200ms, top 200ms, left 200ms, opacity 200ms;
+      }
+
+      .no-image.open-view {
+        background-color: #FC4A14;
       }
 
       .open-view .exit {
