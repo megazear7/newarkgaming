@@ -1,120 +1,114 @@
-import {html, render} from '/vendor/lit-html.js';
+import { LitElement, html } from '/vendor/lit-html-element/lit-element.js';
 
-export default class TnggCard extends HTMLElement {
+export default class TnggCard extends LitElement {
   static get is() {
     return "tngg-card";
   }
 
-  get banner() { return this._banner; }
-  set banner(v) { this._banner = v; this.render() }
-
-  get image() { return this._image; }
-  set image(v) { this._image = v; this.render() }
-
-  get bold() { return this._bold; }
-  set bold(v) { this._bold = v; this.render() }
-
-  get open() { return this._open; }
-  set open(v) { this._open = v; this.render() }
-
-  get nonopenable() { return this._nonopenable; }
-  set nonopenable(v) { this._nonopenable = v; this.render() }
-
-  constructor() {
-    super();
-    this.attachShadow({mode: "open"});
-
-    this._banner = this.getAttribute("banner") != undefined && this.getAttribute("banner") != null;
-    this._image = this.getAttribute("image");
-    this._bold = this.getAttribute("bold") != undefined && this.getAttribute("bold") != null;
-    this._open = this.getAttribute("open") != undefined && this.getAttribute("open") != null;
-    this._nonopenable = this.getAttribute("nonopenable") != undefined && this.getAttribute("nonopenable") != null;
-
-    this.render();
-    this._loadImages();
-  }
-
-  render() {
-    render(html`
-      ${this._styles()}
-      <div class="card ${this.bold ? 'bold' : ''} ${this.image ? '' : 'no-image'} ${this.nonopenable ? 'nonopenable' : 'openable'}">
-        ${this._top()}
-        ${this._bottom()}
-      </div>
-      <div class="open-view ${this.open ? 'open' : ''}">
-        <div class="open-wrapper">
-          <div class="exit">X</div>
-          <slot name="opened">
-        </div>
-      </div>
-    `, this.shadowRoot);
-
-    if (! this.nonopenable) {
-      this._addEventHandlers();
+  static get properties() {
+    return {
+      banner: {
+        type: Boolean,
+        attrName: "banner"
+      },
+      image: {
+        type: String,
+        attrName: "image"
+      },
+      bold: {
+        type: Boolean,
+        attrName: "bold"
+      },
+      open: {
+        type: Boolean,
+        attrName: "open"
+      },
+      nonopenable: {
+        type: Boolean,
+        attrName: "nonopenable"
+      }
     }
   }
 
-  _addEventHandlers() {
+  constructor() {
+    super();
+  }
+
+  render() {
+    return html`
+      ${this._styles()}
+      <div class$="card ${this.bold ? 'bold' : ''} ${this.image ? '' : 'no-image'} ${this.nonopenable ? 'nonopenable' : 'openable'}"
+           on-click=${() => this.openCard()}>
+        ${this._top()}
+        ${this._bottom()}
+      </div>
+      <div class$="open-view ${this.open ? 'open' : ''}">
+        <div class="open-wrapper">
+          <div class="exit" on-click=${() => this.closeCard()}>X</div>
+          <slot name="opened">
+        </div>
+      </div>
+    `;
+  }
+
+  renderCallback() {
+    super.renderCallback();
+    this._loadImages();
+  }
+
+  openCard(event) {
     var card = this.shadowRoot.querySelector(".card")
     var openView = this.shadowRoot.querySelector(".open-view")
-    var exit = this.shadowRoot.querySelector(".open-view .exit")
     var save = { };
-    var rect;
+    this._rect = card.getBoundingClientRect();
 
-    var cardClicked = (event) => {
-      rect = card.getBoundingClientRect();
-      card.removeEventListener("click", cardClicked);
-      this.open = true;
+    this.open = true;
 
-      save.display = openView.style.display;
-      save.position = openView.style.position;
-      save.top = openView.style.top;
-      save.left = openView.style.left;
-      save.width = openView.style.width;
-      save.height = openView.style.height;
-      save.zIndex = openView.style.zIndex;
+    var viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    document.querySelector("body").style.height = viewportHeight+"px";
+    document.querySelector("body").style.overflow = "hidden";
 
-      openView.style.display = "block";
-      openView.style.position = "fixed";
-      openView.style.top = rect.top + "px";
-      openView.style.left = rect.left + "px";
-      openView.style.width = rect.width + "px";
-      openView.style.height = rect.height + "px";
-      openView.style.zIndex = "100";
+    openView.style.display = "block";
+    openView.style.position = "fixed";
+    openView.style.top = this._rect.top + "px";
+    openView.style.left = this._rect.left + "px";
+    openView.style.width = this._rect.width + "px";
+    openView.style.height = this._rect.height + "px";
+    openView.style.zIndex = "100";
+
+    setTimeout(() => {
+      openView.style.width = window.innerWidth + "px";
+      openView.style.height = window.innerHeight + "px";
+      openView.style.left = "0";
+      openView.style.top = "0";
 
       setTimeout(() => {
-        openView.style.width = window.innerWidth + "px";
-        openView.style.height = window.innerHeight + "px";
-        openView.style.left = "0";
-        openView.style.top = "0";
+        openView.style.width = "100%";
+        openView.style.height = "100%";
+      }, 600);
+    }, 10);
+  }
 
-        setTimeout(() => {
-          openView.style.width = "100%";
-          openView.style.height = "100%";
-        }, 1000);
-      }, 10);
-    };
+  closeCard(event) {
+    var openView = this.shadowRoot.querySelector(".open-view")
 
-    var exitClicked = (event) => {
-      exit.removeEventListener("click", exitClicked);
-      card.removeEventListener("click", cardClicked);
+    document.querySelector("body").style.height = "initial";
+    document.querySelector("body").style.overflow = "initial";
+
+    openView.style.display = "block";
+    openView.style.position = "fixed";
+    openView.style.top = this._rect.top + "px";
+    openView.style.left = this._rect.left + "px";
+    openView.style.width = this._rect.width + "px";
+    openView.style.height = this._rect.height + "px";
+    openView.style.zIndex = "100";
+
+    setTimeout(() => {
       this.open = false;
-
-      openView.style.display = "block";
-      openView.style.position = "fixed";
-      openView.style.top = rect.top + "px";
-      openView.style.left = rect.left + "px";
-      openView.style.width = rect.width + "px";
-      openView.style.height = rect.height + "px";
-      openView.style.zIndex = "100";
-
       setTimeout(() => {
         openView.style.display = "none";
-      }, 1000)
-    };
-
-    exit.addEventListener("click", exitClicked);
-    card.addEventListener("click", cardClicked);
+      }, 300)
+    }, 300)
   }
 
   _top() {
@@ -191,7 +185,7 @@ export default class TnggCard extends HTMLElement {
         position: absolute;
         top: 0;
         opacity: 0;
-        transition: opacity 1s;
+        transition: opacity 0.3s;
         width: 100%;
       }
 
@@ -211,9 +205,10 @@ export default class TnggCard extends HTMLElement {
 
       .open-view {
         display: none;
+        overflow: hidden;
         opacity: 0;
         background: url(${this.image}) center center / cover no-repeat fixed;
-        transition: width 0.5s, height 0.5s, top 0.5s, left 0.5s, opacity 1s;
+        transition: width 0.3s, height 0.3s, top 0.3s, left 0.3s, opacity 0.3s;
       }
 
       .open-view .exit {
@@ -250,4 +245,4 @@ export default class TnggCard extends HTMLElement {
   }
 }
 
-customElements.define(TnggCard.is, TnggCard);
+customElements.define(TnggCard.is, TnggCard.withProperties());

@@ -28,6 +28,20 @@ body {
   transition: opacity 1s;
 }
 
+tngg-card {
+  margin-bottom: 1rem;
+}
+
+tngg-card small {
+  display: block;
+  font-size: 1rem;
+  top: 1rem;
+}
+
+tngg-card span[slot='title'] {
+  font-size: 1.5rem;
+}
+
 @supports (display: grid) {
   @media (min-width: 800px) {
     .container {
@@ -40,6 +54,10 @@ body {
         "b c"
         "d e"
         "f g";
+    }
+
+    tngg-card {
+      margin-bottom: 0;
     }
 
     .card-a {
@@ -84,20 +102,6 @@ body {
         "f g g";
     }
   }
-}
-
-tngg-card {
-  margin-bottom: 1rem;
-}
-
-tngg-card small {
-  display: block;
-  font-size: 1rem;
-  top: 1rem;
-}
-
-tngg-card span[slot='title'] {
-  font-size: 1.5rem;
 }
 
 @media (min-width: 800px) {
