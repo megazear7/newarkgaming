@@ -84,8 +84,8 @@ export default class TnggCard extends LitElement {
       setTimeout(() => {
         openView.style.width = "100%";
         openView.style.height = "100%";
-      }, 200);
-    }, 200);
+      }, 225);
+    }, 225);
   }
 
   closeCard(event) {
@@ -106,8 +106,8 @@ export default class TnggCard extends LitElement {
       openView.style.height = "0";
       this.open = false;
       setTimeout(() => {
-      }, 200)
-    }, 200)
+      }, 225)
+    }, 225)
   }
 
   _top() {
@@ -151,7 +151,7 @@ export default class TnggCard extends LitElement {
         background-color: #fff;
         border-radius: 3px;
         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-        transition: box-shadow 200ms cubic-bezier(.25,.8,.25,1);
+        transition: box-shadow 225ms ease-in-out;
         height: 100%;
         overflow: hidden;
       }
@@ -184,7 +184,7 @@ export default class TnggCard extends LitElement {
         position: absolute;
         top: 0;
         opacity: 0;
-        transition: opacity 200ms;
+        transition: opacity 225ms ease-in-out;
         width: 100%;
       }
 
@@ -207,7 +207,7 @@ export default class TnggCard extends LitElement {
         overflow: hidden;
         opacity: 0;
         background: url(${this.image}) center center / cover no-repeat fixed;
-        transition: width 200ms, height 200ms, top 200ms, left 200ms, opacity 200ms;
+        transition: width 225ms ease-in-out, height 225ms ease-in-out, top 225ms ease-in-out, left 225ms ease-in-out, opacity 225ms ease-in-out;
       }
 
       .no-image.open-view {
