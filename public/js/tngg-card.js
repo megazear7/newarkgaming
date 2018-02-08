@@ -58,13 +58,21 @@ export default class TnggCard extends HTMLElement {
     var card = this.shadowRoot.querySelector(".card")
     var openView = this.shadowRoot.querySelector(".open-view")
     var exit = this.shadowRoot.querySelector(".open-view .exit")
+    var save = { };
     var rect;
 
     var cardClicked = (event) => {
+      rect = card.getBoundingClientRect();
       card.removeEventListener("click", cardClicked);
       this.open = true;
 
-      rect = card.getBoundingClientRect();
+      save.display = openView.style.display;
+      save.position = openView.style.position;
+      save.top = openView.style.top;
+      save.left = openView.style.left;
+      save.width = openView.style.width;
+      save.height = openView.style.height;
+      save.zIndex = openView.style.zIndex;
 
       openView.style.display = "block";
       openView.style.position = "fixed";
@@ -79,7 +87,12 @@ export default class TnggCard extends HTMLElement {
         openView.style.height = window.innerHeight + "px";
         openView.style.left = "0";
         openView.style.top = "0";
-      }, 10)
+
+        setTimeout(() => {
+          openView.style.width = "100%";
+          openView.style.height = "100%";
+        }, 1000);
+      }, 10);
     };
 
     var exitClicked = (event) => {
@@ -203,10 +216,6 @@ export default class TnggCard extends HTMLElement {
         transition: width 0.5s, height 0.5s, top 0.5s, left 0.5s, opacity 1s;
       }
 
-      .open-view.open {
-        opacity: 1;
-      }
-
       .open-view .exit {
         font-size: 35px;
         line-height: 35px;
@@ -216,57 +225,27 @@ export default class TnggCard extends HTMLElement {
         border: 3px solid #fff;
         cursor: pointer;
         float: right;
-        transition: box-shadow 0.5s, transform 0.5s;
+        transition: box-shadow 0.5s, text-shadow 0.5s, transform 0.5s;
+        text-shadow: none;
       }
 
       .open-view .exit:hover {
         box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
         transform: rotate(360deg);
+        text-shadow: 2px 2px 2px #111d;
       }
 
       .open-view .open-wrapper {
         height: 100%;
         color: #fff;
-        background-color: #7e798699;
+        background-color: #7e7986bb;
+        text-shadow: 2px 2px 2px #111d;
         padding: 50px;
       }
 
-      /*
-      .card.open {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 100;
-        background: url(${this.image}) center center / cover no-repeat fixed;
+      .open-view.open {
+        opacity: 1;
       }
-
-      .card.open .card-top {
-        height: 25%;
-      }
-
-      .card.open img {
-        display: none;
-      }
-
-      .card.open .card-top {
-        background: none;
-      }
-
-      .card.open .card-header {
-        height: 100%;
-      }
-
-      .card.open .card-bottom {
-        height: 75%;
-        background-color: #7e798699;
-      }
-
-      .card.open .card-top {
-        border-bottom: none;
-      }
-      */
     </style>`;
   }
 }
