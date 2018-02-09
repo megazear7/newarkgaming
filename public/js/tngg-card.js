@@ -175,8 +175,6 @@ export default class TnggCard extends LitElement {
         position: relative;
         z-index: 2;
         padding: 1rem;
-        color: #fff;
-        text-shadow: 3px 3px 2px #000;
         background-color: #7e798699;
       }
 
@@ -197,15 +195,12 @@ export default class TnggCard extends LitElement {
       }
 
       .card.bold .card-bottom {
-        color: #fff;
         background-color: #FC4A14;
-        text-shadow: 2px 2px 2px #111d;
       }
 
       .open-view {
         height: 0;
         overflow: scroll;
-        padding-bottom: 1rem;
         opacity: 0;
         background: url(${this.image}) center center / cover no-repeat fixed;
         transition: width 225ms ease-in-out, height 225ms ease-in-out, top 225ms ease-in-out, left 225ms ease-in-out, opacity 225ms ease-in-out;
@@ -244,9 +239,7 @@ export default class TnggCard extends LitElement {
 
       .open-view .open-wrapper {
         height: 100%;
-        color: #fff;
         background-color: #7e7986bb;
-        text-shadow: 2px 2px 2px #111d;
         padding: 1rem;
         overflow: scroll;
       }

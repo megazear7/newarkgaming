@@ -5,7 +5,8 @@
 
 html {
   font-size: 28px;
-  color: #222d;
+  color: white;
+  font-family: "Times New Roman", Times, serif;
 }
 
 @media (min-width: 800px) {
@@ -42,11 +43,29 @@ body {
 
 tngg-card {
   margin-bottom: 1rem;
+  text-shadow: 1px 1px 1px #111d;
+}
+
+tngg-card [slot="message"] {
+  color: #48464a;
+  text-shadow: none;
+}
+
+tngg-card h1[slot="message"] {
+  color: white;
 }
 
 tngg-card small {
   display: block;
   font-size: 1rem;
+}
+
+.align-right {
+  float: right;
+}
+
+a {
+  color: #fff;
 }
 
 @supports (display: grid) {
