@@ -1,9 +1,10 @@
 {
   "name": "Newark Gaming",
-  "short_name": "Newark Gaming",
+  "short_name": "N.Gaming",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#53ecc9",
+  "background_color": "#4ABDAC",
+  "theme_color": "#FC4A14",
   "description": "A site for the latest information on the newark gaming group.",
   "icons": [{
     "src": "/images/logo/meeple-27.png",
