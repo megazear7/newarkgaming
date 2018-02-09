@@ -1,10 +1,16 @@
-const PRECACHE = 'precache-v6';
-const RUNTIME = 'runtime-v6';
+const PRECACHE = 'precache-v7';
+const RUNTIME = 'runtime-v7';
 
 // A list of local resources we always want to be cached.
 const PRECACHE_URLS = [
   "",
   "/",
+  "/js/main.js",
+  "/js/tngg-card.js",
+  "/vendor/lit-html/lit-html.js",
+  "/vendor/lit-html/lib/lit-extended.js",
+  "/vendor/lit-html-element/lit-element.js",
+  "/css/main.css"
 ];
 
 // The install handler takes care of precaching the resources we always need.
