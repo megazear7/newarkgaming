@@ -44,7 +44,7 @@ export default class TnggCard extends LitElement {
       </div>
       <div class$="open-view ${this.open ? 'open' : ''} ${this.image ? '' : 'no-image'}">
         <div class="open-wrapper">
-          <div class="exit" on-click=${() => this.closeCard()}>X</div>
+          <div class="exit" on-click=${() => this.closeCard()}><div>&#10005;</div></div>
           <slot name="opened">
         </div>
       </div>
@@ -204,7 +204,8 @@ export default class TnggCard extends LitElement {
 
       .open-view {
         height: 0;
-        overflow: hidden;
+        overflow: scroll;
+        padding-bottom: 1rem;
         opacity: 0;
         background: url(${this.image}) center center / cover no-repeat fixed;
         transition: width 225ms ease-in-out, height 225ms ease-in-out, top 225ms ease-in-out, left 225ms ease-in-out, opacity 225ms ease-in-out;
@@ -215,22 +216,30 @@ export default class TnggCard extends LitElement {
       }
 
       .open-view .exit {
-        font-size: 35px;
-        line-height: 35px;
-        width: 35px;
+        font-size: 1.25rem;
+        line-height: 1.25rem;
+        width: 1.25rem;
+        padding: 0.1rem;
         text-align: center;
-        border-radius: 50px;
+        border-radius: 1.25rem;
         border: 3px solid #fff;
         cursor: pointer;
         float: right;
-        transition: box-shadow 0.5s, text-shadow 0.5s, transform 0.5s;
-        text-shadow: none;
+        transition: box-shadow 0.5s ease-in-out;
       }
 
       .open-view .exit:hover {
         box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-        transform: rotate(360deg);
+      }
+
+      .open-view .exit div {
+        text-shadow: 0px 0px 0px #111d;
+        transition: text-shadow 0.5s ease-in-out, transform 0.5s ease-in-out;
+      }
+
+      .open-view .exit div:hover {
         text-shadow: 2px 2px 2px #111d;
+        transform: rotate(360deg);
       }
 
       .open-view .open-wrapper {
@@ -238,7 +247,8 @@ export default class TnggCard extends LitElement {
         color: #fff;
         background-color: #7e7986bb;
         text-shadow: 2px 2px 2px #111d;
-        padding: 50px;
+        padding: 1rem;
+        overflow: scroll;
       }
 
       .open-view.open {
