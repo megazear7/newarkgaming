@@ -81,7 +81,14 @@
         </div>
       </tngg-card>
 
-    <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
+    <script type="module" src="/js/main.js"></script>
+    <script type="text/javascript">
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js');
+      }
+    </script>
+    <!-- This will need loaded for using firebase authentication, real time database and other firebase services -->
+    <!--<script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
     <script>
       // Initialize Firebase
       var config = {
@@ -93,12 +100,6 @@
         messagingSenderId: "652674419581"
       };
       firebase.initializeApp(config);
-    </script>
-    <script type="text/javascript">
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/service-worker.js');
-      }
-    </script>
-    <script type="module" src="/js/main.js"></script>
+    </script>-->
   </body>
 </html>
