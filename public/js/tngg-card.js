@@ -135,11 +135,25 @@ export default class TnggCard extends LitElement {
 
   _loadImages() {
     this.shadowRoot.querySelectorAll('img').forEach((img) => {
-      img.src = img.dataset.src;
+      var rect = this.getBoundingClientRect();
+      var extensionIndex = img.dataset.src.lastIndexOf(".");
+      var imgType = window.isMobile ? ".mobile" : ".desktop";
+      if (rect.width > rect.height * 1.75) imgType = ".wide";
+      img.src = img.dataset.src.substring(0, extensionIndex) + imgType + img.dataset.src.substring(extensionIndex);
       img.addEventListener('load', () => {
-        img.style.opacity = '1';
+        img.style.opacity = '0.5';
       });
     });
+  }
+
+  openBackgroundImage() {
+    if (this.image) {
+      var imgType = window.isMobile ? ".mobile" : ".desktop";
+      var extensionIndex = this.image.lastIndexOf(".");
+      return this.image.substring(0, extensionIndex) + imgType + this.image.substring(extensionIndex);
+    } else {
+      return "";
+    }
   }
 
   _styles() {
@@ -149,12 +163,16 @@ export default class TnggCard extends LitElement {
       }
 
       .card {
-        background-color: #fff;
+        background-color: #FFF;
         border-radius: 3px;
         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         transition: box-shadow 225ms ease-in-out;
         height: 100%;
         overflow: hidden;
+      }
+
+      .card.bold {
+        background-color: #FC4A14;
       }
 
       .card.openable {
@@ -169,41 +187,37 @@ export default class TnggCard extends LitElement {
         position: relative;
         overflow: hidden;
         border-bottom: 2px solid #F78733;
-        background-color: #FC4A14;
+        background-color: #313131;
+        min-height: 7rem;
       }
 
       .card-top .card-header {
         position: relative;
         z-index: 2;
-        padding: 1rem;
-        background-color: #7e798699;
+        padding: 0 1rem;
       }
 
       .card-top img {
         position: absolute;
-        top: 0;
+        top: -1px;
         opacity: 0;
         transition: opacity 225ms ease-in-out;
-        width: 100%;
+        width: 101%;
       }
 
       .card-bottom {
-        padding: 0.75em;
+        padding: 0 1rem;
       }
 
       .card.no-image .card-header {
         background: none;
       }
 
-      .card.bold .card-bottom {
-        background-color: #FC4A14;
-      }
-
       .open-view {
         height: 0;
         overflow: scroll;
         opacity: 0;
-        background: url(${this.image}) center center / cover no-repeat fixed;
+        background: url(${this.openBackgroundImage()}) center center / cover no-repeat fixed;
         transition: width 225ms ease-in-out, height 225ms ease-in-out, top 225ms ease-in-out, left 225ms ease-in-out, opacity 225ms ease-in-out;
       }
 
@@ -240,7 +254,7 @@ export default class TnggCard extends LitElement {
 
       .open-view .open-wrapper {
         height: 100%;
-        background-color: #7e7986bb;
+        background-color: #0008;
         padding: 1rem;
         overflow: scroll;
       }

@@ -2,6 +2,7 @@
 /* Secondary: #FC4A14 */
 /* Action: #F78733 */
 /* Muted: #DFDCE3 */
+/* Dark Muted: #313131 */
 
 html {
   font-size: 28px;
@@ -88,7 +89,7 @@ a {
 
   @media (min-width: 1000px) {
     .container {
-      max-width: 1000px;
+      max-width: 950px;
       margin: 1rem auto;
       grid-template-columns: 1fr 1fr 1fr;
       grid-template-rows: 1fr;
