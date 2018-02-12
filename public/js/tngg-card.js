@@ -146,7 +146,10 @@ export default class TnggCard extends LitElement {
     var rect = this.getBoundingClientRect();
     var extensionIndex = this.image.lastIndexOf(".");
     var openImgType = window.isMobile ? ".mobile" : ".desktop";
-    var cardImgType = rect.width > rect.height * 1.75 ? ".wide" : openImgType;
+    if (this.image.indexOf("deception") > -1) {
+      console.log(rect.width > 500);
+    }
+    var cardImgType = rect.width > 500 ? ".wide" : openImgType;
     var cardImgSrc = this.image.substring(0, extensionIndex) + cardImgType + this.image.substring(extensionIndex);
     var openImgSrc = this.image.substring(0, extensionIndex) + openImgType + this.image.substring(extensionIndex);
 
@@ -157,6 +160,7 @@ export default class TnggCard extends LitElement {
     this.shadowRoot.querySelectorAll('img').forEach((img) => {
       img.src = cardImgSrc;
       img.addEventListener('load', () => {
+        img.style.display = "block";
         img.style.opacity = '0.5';
       });
     });
@@ -199,21 +203,19 @@ export default class TnggCard extends LitElement {
         overflow: hidden;
         border-bottom: 2px solid #F78733;
         background-color: #313131;
-        min-height: 7rem;
       }
 
       .card-top .card-header {
-        position: relative;
+        position: absolute;
+        top: 0;
         z-index: 2;
         padding: 0 1rem;
       }
 
       .card-top img {
-        position: absolute;
-        top: -1px;
+        width: 100%;
         opacity: 0;
         transition: opacity 225ms ease-in-out;
-        width: 101%;
       }
 
       .card-bottom {
