@@ -54,6 +54,29 @@ export default class TnggCard extends LitElement {
     `;
   }
 
+  _top() {
+    if (this.banner) {
+      return '';
+    } else {
+      return html`
+        <div class="card-top">
+          <div class="card-header">
+            <slot name="title"></slot>
+          </div>
+          ${this.image ? html`<img data-src$=${this.image}>` : ''}
+        </div>
+      `;
+    }
+  }
+
+  _bottom() {
+    return html`
+      <div class="card-bottom">
+        <slot name="message"></slot>
+      </div>
+    `;
+  }
+
   renderCallback() {
     super.renderCallback();
     if (this.needsImages) {
@@ -115,34 +138,11 @@ export default class TnggCard extends LitElement {
     }, 225)
   }
 
-  _top() {
-    if (this.banner) {
-      return '';
-    } else {
-      return html`
-        <div class="card-top">
-          <div class="card-header">
-            <slot name="title"></slot>
-          </div>
-          ${this.image ? html`<img data-src$=${this.image}>` : ''}
-        </div>
-      `;
-    }
-  }
-
-  _bottom() {
-    return html`
-      <div class="card-bottom">
-        <slot name="message"></slot>
-      </div>
-    `;
-  }
-
   _loadImages() {
     if (! this.image) return;
 
-    var openImgLoader = new Image()
-    var cardImgLoader = new Image()
+    var openImgLoader = new Image();
+    var cardImgLoader = new Image();
     var rect = this.getBoundingClientRect();
     var extensionIndex = this.image.lastIndexOf(".");
     var openImgType = window.isMobile ? ".mobile" : ".desktop";
