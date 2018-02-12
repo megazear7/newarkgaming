@@ -1,22 +1,5 @@
 import TnngCard from "/js/tngg-card.js";
 
-document.querySelectorAll('img').forEach((img) => {
-  var loaded = false;
-  img.addEventListener('load', () => {
-    img.style.opacity = '1';
-    loaded = true;
-  });
-
-  // Can we gauruntee that the load event will fire? It doesn't seem like it.
-  // So this is a backup to make sure the images appear.
-  setTimeout(() => {
-    if (! loaded) {
-      img.style.opacity = '1';
-    } else {
-    }
-  }, 5000);
-});
-
 var backgroundImage = new Image()
 var backgroundImageUrl = '/images/gaming/playing1.jpg';
 

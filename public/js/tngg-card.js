@@ -119,7 +119,7 @@ export default class TnggCard extends LitElement {
           <div class="card-header">
             <slot name="title"></slot>
           </div>
-          ${this.image ? html`<img src=${this.image}>` : ''}
+          ${this.image ? html`<img data-src$=${this.image}>` : ''}
         </div>
       `;
     }
@@ -135,6 +135,7 @@ export default class TnggCard extends LitElement {
 
   _loadImages() {
     this.shadowRoot.querySelectorAll('img').forEach((img) => {
+      img.src = img.dataset.src;
       img.addEventListener('load', () => {
         img.style.opacity = '1';
       });
