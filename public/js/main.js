@@ -1,7 +1,7 @@
 import TnngCard from "/js/tngg-card.js";
 
 var backgroundImage = new Image()
-var backgroundImageUrl = '/images/gaming/playing1.jpg';
+var backgroundImageUrl = '/images/gaming/playing1.mobile.jpg';
 
 backgroundImage.onload = () => {
   var html = document.querySelector('html');

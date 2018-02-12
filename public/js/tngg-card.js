@@ -32,6 +32,7 @@ export default class TnggCard extends LitElement {
 
   constructor() {
     super();
+    this.needsImages = true;
   }
 
   render() {
@@ -45,7 +46,9 @@ export default class TnggCard extends LitElement {
       <div class$="open-view ${this.open ? 'open' : ''} ${this.image ? '' : 'no-image'}">
         <div class="open-wrapper">
           <div class="exit" on-click=${() => this.closeCard()}><div>&#10005;</div></div>
-          <slot name="opened">
+          <div class="open-container">
+            <slot name="opened">
+          </div>
         </div>
       </div>
     `;
@@ -53,7 +56,9 @@ export default class TnggCard extends LitElement {
 
   renderCallback() {
     super.renderCallback();
-    this._loadImages();
+    if (this.needsImages) {
+      this._loadImages();
+    }
   }
 
   openCard(event) {
@@ -134,26 +139,32 @@ export default class TnggCard extends LitElement {
   }
 
   _loadImages() {
+    if (! this.image) return;
+
+    var openImgLoader = new Image()
+    var cardImgLoader = new Image()
+    var rect = this.getBoundingClientRect();
+    var extensionIndex = this.image.lastIndexOf(".");
+    var openImgType = window.isMobile ? ".mobile" : ".desktop";
+    var cardImgType = rect.width > rect.height * 1.75 ? ".wide" : openImgType;
+    var cardImgSrc = this.image.substring(0, extensionIndex) + cardImgType + this.image.substring(extensionIndex);
+    var openImgSrc = this.image.substring(0, extensionIndex) + openImgType + this.image.substring(extensionIndex);
+
+    openImgLoader.onload = () => {
+      this.shadowRoot.querySelector(".open-view").style.background = "url("+openImgSrc+") center center / cover no-repeat fixed";
+    }
+
     this.shadowRoot.querySelectorAll('img').forEach((img) => {
-      var rect = this.getBoundingClientRect();
-      var extensionIndex = img.dataset.src.lastIndexOf(".");
-      var imgType = window.isMobile ? ".mobile" : ".desktop";
-      if (rect.width > rect.height * 1.75) imgType = ".wide";
-      img.src = img.dataset.src.substring(0, extensionIndex) + imgType + img.dataset.src.substring(extensionIndex);
+      img.src = cardImgSrc;
       img.addEventListener('load', () => {
         img.style.opacity = '0.5';
       });
     });
-  }
 
-  openBackgroundImage() {
-    if (this.image) {
-      var imgType = window.isMobile ? ".mobile" : ".desktop";
-      var extensionIndex = this.image.lastIndexOf(".");
-      return this.image.substring(0, extensionIndex) + imgType + this.image.substring(extensionIndex);
-    } else {
-      return "";
-    }
+    cardImgLoader.src = cardImgSrc;
+    openImgLoader.src = openImgSrc;
+
+    this.needsImages = false;
   }
 
   _styles() {
@@ -217,7 +228,6 @@ export default class TnggCard extends LitElement {
         height: 0;
         overflow: scroll;
         opacity: 0;
-        background: url(${this.openBackgroundImage()}) center center / cover no-repeat fixed;
         transition: width 225ms ease-in-out, height 225ms ease-in-out, top 225ms ease-in-out, left 225ms ease-in-out, opacity 225ms ease-in-out;
       }
 
@@ -257,6 +267,11 @@ export default class TnggCard extends LitElement {
         background-color: #0008;
         padding: 1rem;
         overflow: scroll;
+      }
+
+      .open-view .open-wrapper .open-container {
+        max-width: 950px;
+        margin: auto;
       }
 
       .open-view.open {
