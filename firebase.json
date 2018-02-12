@@ -15,7 +15,7 @@
     "headers": [
       {
         "source": "/",
-        "headers": [{"key": "Link", "value": "</js/main.js>;rel=preload;as=script,</css/main.css>;rel=preload;as=style"}]
+        "headers": [{"key": "Link", "value": "</js/main.js>;rel=preload;as=script,</js/tngg-card.js>;rel=preload;as=script,</vendor/lit-html/lit-html.js>,</vendor/lit-html/lib/lit-extended.js>,</vendor/lit-html-element/lit-element.js>;rel=preload;as=script,</css/main.css>;rel=preload;as=style"}]
       }
     ]
   }
