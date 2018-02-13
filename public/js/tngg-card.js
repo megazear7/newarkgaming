@@ -146,9 +146,6 @@ export default class TnggCard extends LitElement {
     var rect = this.getBoundingClientRect();
     var extensionIndex = this.image.lastIndexOf(".");
     var openImgType = window.isMobile ? ".mobile" : ".desktop";
-    if (this.image.indexOf("deception") > -1) {
-      console.log(rect.width > 500);
-    }
     var cardImgType = rect.width > 500 ? ".wide" : openImgType;
     var cardImgSrc = this.image.substring(0, extensionIndex) + cardImgType + this.image.substring(extensionIndex);
     var openImgSrc = this.image.substring(0, extensionIndex) + openImgType + this.image.substring(extensionIndex);

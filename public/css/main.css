@@ -36,6 +36,17 @@ body {
   background-color: #4ABDAC;
 }
 
+.account {
+  position: fixed;
+  right: 0;
+  top: 0;
+  background-color: white;
+  color: #444;
+  padding: 10px;
+  border-radius: 0 0 0 5px;
+  z-index: 5;
+}
+
 .container {
   margin: 1rem;
 }
