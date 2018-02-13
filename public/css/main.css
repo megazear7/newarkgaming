@@ -38,33 +38,98 @@ body {
 
 #account {
   position: absolute;
-  right: 0;
+  right: 20px;
   top: 0;
-  padding: 10px;
-  border-radius: 0 0 0 5px;
+  border-radius: 0 0 50px 50px;
   z-index: 5;
   background-color: #4ABDAC;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   text-shadow: 1px 1px 1px #111d;
+  opacity: 0;
+  transition: opacity 225ms ease-in-out;
+  text-align: center;
+  width: 100px;
+  min-height: 100px;
+}
+
+#avatar {
+  border-radius: 50px;
+  margin-top: 5px;
+  display: block;
+  width: 100px;
 }
 
 #sign-out {
   cursor: pointer;
+  height: 0;
+  overflow: hidden;
+  transition: height 225ms ease-in-out;
 }
 
 #sign-out:hover {
   text-decoration: underline;
 }
 
+#sign-out.show {
+  height: 1.25rem;
+}
+
 #login {
   position: absolute;
-  right: 0;
+  right: 40px;
   top: 0;
-  padding: 10px;
-  border-radius: 0 0 0 5px;
   z-index: 5;
+  opacity: 0;
+  transition: opacity 225ms ease-in-out;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 0 0 50px 50px;
   background-color: #4ABDAC;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+#login.show {
+  background-color: #0000;
+  box-shadow: none;
+}
+
+#login-message {
+  padding: 10px;
+}
+
+#login-message.hide {
+  display: none;
+}
+
+#login-toggle {
+  transition: transform 0.5s ease-in-out;
+  margin-top: 5px;
+  height: 2rem;
+  line-height: 2rem;
+  margin: auto;
+}
+
+#login-toggle:after {
+  content: "▼";
+}
+
+#login-toggle.show {
+  transform: rotate(180deg);
+  border-radius: 50px;
+  background-color: #4ABDAC;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  width: 2rem;
+}
+
+#firebaseui-auth-container {
+  height: 0;
+  width: 0;
+  transition: height 225ms ease-in-out, width 225ms ease-in-out;
+}
+
+#firebaseui-auth-container.show {
+  height: auto;
+  width: auto;
 }
 
 .container {

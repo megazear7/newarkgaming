@@ -35,6 +35,10 @@ initApp = function() {
         document.getElementById('display-name').textContent = displayName;
         document.getElementById('account').style.opacity = "1";
         document.getElementById('login').style.opacity = "0";
+        document.getElementById('avatar').src = photoURL;
+        document.getElementById('avatar').addEventListener("click", () => {
+          document.getElementById('sign-out').classList.toggle("show");
+        });
       });
     } else {
       ui.start('#firebaseui-auth-container', uiConfig);
@@ -42,6 +46,12 @@ initApp = function() {
       document.getElementById('display-name').textContent = 'null';
       document.getElementById('account').style.opacity = "0";
       document.getElementById('login').style.opacity = "1";
+      document.getElementById('login-opener').addEventListener("click", () => {
+        document.getElementById('firebaseui-auth-container').classList.toggle("show");
+        document.getElementById('login').classList.toggle("show");
+        document.getElementById('login-toggle').classList.toggle("show");
+        document.getElementById('login-message').classList.toggle("hide");
+      });
     }
   }, function(error) {
     console.log(error);
