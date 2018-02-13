@@ -6,14 +6,15 @@ var uiConfig = {
       authMethod: 'https://accounts.google.com',
       clientId: '838382712391-38utf875dfbieg6ovfem73ddhl98kr00.apps.googleusercontent.com'
     },
-    {
+    // Currently there is a console error when clicking on verify with the phone auth provider.
+    /*{
       provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
       recaptchaParameters: {
         type: 'image',
         size: 'invisible',
         badge: 'bottomleft'
       }
-    },
+    },*/
     firebase.auth.EmailAuthProvider.PROVIDER_ID
   ],
   credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO
