@@ -35,7 +35,11 @@ initApp = function() {
         document.getElementById('display-name').textContent = displayName;
         document.getElementById('account').style.opacity = "1";
         document.getElementById('login').style.opacity = "0";
-        document.getElementById('avatar').src = photoURL;
+        if (photoURL) {
+          document.getElementById('avatar').src = photoURL;
+        } else {
+          document.getElementById('avatar').src = '/images/user.png';
+        }
         document.getElementById('avatar').addEventListener("click", () => {
           document.getElementById('sign-out').classList.toggle("show");
         });
