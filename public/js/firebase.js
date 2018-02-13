@@ -1,13 +1,3 @@
-var config = {
-  apiKey: "AIzaSyDZqVEfoyeKhdpNw-tdkvlojxnFB1vk1nY",
-  authDomain: "newarkgaming.firebaseapp.com",
-  databaseURL: "https://newarkgaming.firebaseio.com",
-  projectId: "newarkgaming",
-  storageBucket: "newarkgaming.appspot.com",
-  messagingSenderId: "652674419581"
-};
-firebase.initializeApp(config);
-
 var uiConfig = {
   signInSuccessUrl: '/',
   signInOptions: [
@@ -16,7 +6,14 @@ var uiConfig = {
       authMethod: 'https://accounts.google.com',
       clientId: '838382712391-38utf875dfbieg6ovfem73ddhl98kr00.apps.googleusercontent.com'
     },
-    firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+    {
+      provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+      recaptchaParameters: {
+        type: 'image',
+        size: 'invisible',
+        badge: 'bottomleft'
+      }
+    },
     firebase.auth.EmailAuthProvider.PROVIDER_ID
   ],
   credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO
@@ -36,7 +33,6 @@ initApp = function() {
       user.getIdToken().then(function(accessToken) {
         document.getElementById('sign-out').textContent = 'Sign out';
         document.getElementById('display-name').textContent = displayName;
-
         document.getElementById('account').style.opacity = "1";
         document.getElementById('login').style.opacity = "0";
       });
@@ -44,7 +40,6 @@ initApp = function() {
       ui.start('#firebaseui-auth-container', uiConfig);
       document.getElementById('sign-out').textContent = 'Sign in';
       document.getElementById('display-name').textContent = 'null';
-
       document.getElementById('account').style.opacity = "0";
       document.getElementById('login').style.opacity = "1";
     }
