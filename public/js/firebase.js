@@ -11,17 +11,21 @@ firebase.initializeApp(config);
 var uiConfig = {
   signInSuccessUrl: '/',
   signInOptions: [
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    {
+      provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      authMethod: 'https://accounts.google.com',
+      clientId: '838382712391-38utf875dfbieg6ovfem73ddhl98kr00.apps.googleusercontent.com'
+    },
     firebase.auth.PhoneAuthProvider.PROVIDER_ID,
     firebase.auth.EmailAuthProvider.PROVIDER_ID
-  ]
+  ],
+  credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO
 };
 var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
 initApp = function() {
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-      // User is signed in.
       var displayName = user.displayName;
       var email = user.email;
       var emailVerified = user.emailVerified;
@@ -30,21 +34,25 @@ initApp = function() {
       var phoneNumber = user.phoneNumber;
       var providerData = user.providerData;
       user.getIdToken().then(function(accessToken) {
-        document.getElementById('sign-in-status').textContent = 'Signed in';
-        document.getElementById('sign-in').textContent = 'Sign out';
-        document.getElementById('account-details').textContent = displayName;
+        document.getElementById('sign-out').textContent = 'Sign out';
+        document.getElementById('display-name').textContent = displayName;
+
+        document.getElementById('account').style.opacity = "1";
+        document.getElementById('login').style.opacity = "0";
       });
     } else {
-      // User is signed out.
       ui.start('#firebaseui-auth-container', uiConfig);
-      document.getElementById('sign-in-status').textContent = 'Signed out';
-      document.getElementById('sign-in').textContent = 'Sign in';
-      document.getElementById('account-details').textContent = 'null';
+      document.getElementById('sign-out').textContent = 'Sign in';
+      document.getElementById('display-name').textContent = 'null';
+
+      document.getElementById('account').style.opacity = "0";
+      document.getElementById('login').style.opacity = "1";
     }
   }, function(error) {
     console.log(error);
   });
-  document.getElementById('sign-in').addEventListener("click", () => {
+
+  document.getElementById('sign-out').addEventListener("click", () => {
     firebase.auth().signOut().then(function() {
       console.log('Signed Out');
     }, function(error) {
