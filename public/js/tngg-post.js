@@ -29,7 +29,6 @@ export default class TnggPost extends LitElement {
 
     firebase.auth().onAuthStateChanged((user) => {
       firebase.database().ref("/users/"+user.uid).once('value', (userDataSnapshot) => {
-        console.log(userDataSnapshot.val());
         if (userDataSnapshot.val().permissions != "admin") {
           this.s(".create-post").style.display = "none";
         }
@@ -201,6 +200,7 @@ export default class TnggPost extends LitElement {
       input {
         background-color: #fff;
         border: none;
+        width: 100%;
         padding-left: 20px;
         transition: border 225ms ease-in-out;
       }
