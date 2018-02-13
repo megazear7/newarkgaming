@@ -170,6 +170,33 @@ a {
 }
 
 @supports (display: grid) {
+  @media (min-width: 800px) {
+    .container {
+      display: grid;
+      grid-gap: 1rem;
+    }
+
+    tngg-card {
+      margin-bottom: 0;
+    }
+
+    #account {
+      right: 20px;
+      width: 120px;
+      background-color: #4ABDAC;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    }
+
+    #avatar {
+      border-radius: 120px;
+      width: 120px;
+    }
+
+    #display-name {
+      display: block;
+    }
+  }
+
   @media (min-width: 800px) and (max-width: 1000px) {
     .container {
       display: grid;
@@ -223,20 +250,5 @@ a {
       grid-column: 1 / 4;
     }
 
-    #account {
-      right: 20px;
-      width: 120px;
-      background-color: #4ABDAC;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    }
-
-    #avatar {
-      border-radius: 120px;
-      width: 120px;
-    }
-
-    #display-name {
-      display: block;
-    }
   }
 }
