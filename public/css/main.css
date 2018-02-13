@@ -161,8 +161,12 @@ tngg-card small {
   font-size: 1rem;
 }
 
-.align-right {
+.pull-right {
   float: right;
+}
+
+.clear {
+  clear: both;
 }
 
 a {

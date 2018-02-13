@@ -31,6 +31,14 @@ initApp = function() {
       var uid = user.uid;
       var phoneNumber = user.phoneNumber;
       var providerData = user.providerData;
+
+      firebase.database().ref('users/' + uid).set({
+        uid: uid,
+        displayName: displayName,
+        email: email,
+        profile_picture : photoURL
+      });
+
       user.getIdToken().then(function(accessToken) {
         document.getElementById('sign-out').textContent = 'Sign out';
         document.getElementById('display-name').textContent = displayName;

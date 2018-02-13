@@ -1,4 +1,6 @@
 import TnngCard from "/js/tngg-card.js";
+import TnngPost from "/js/tngg-post.js";
+import { render, html } from '/vendor/lit-html/lit-html.js';
 
 var backgroundImage = new Image()
 var openImgType = window.isMobile ? ".mobile" : ".desktop";
@@ -22,3 +24,48 @@ window.mobilecheck = function() {
 };
 
 window.isMobile = window.mobilecheck();
+
+function formatDate(date) {
+  var monthNames = [
+    "January", "February", "March",
+    "April", "May", "June", "July",
+    "August", "September", "October",
+    "November", "December"
+  ];
+
+  var day = date.getDate();
+  var monthIndex = date.getMonth();
+  var year = date.getFullYear();
+
+  return monthNames[monthIndex] + ' ' + day + ', ' + year;
+}
+
+window.addEventListener('load', function() {
+  firebase.database().ref("/posts").on('value', (postSnapshot) => {
+    postSnapshot.val().forEach((post) => {
+      firebase.database().ref("/users/"+post.author).on('value', (authorSnapshot) => {
+        var author = authorSnapshot.val();
+        var card = document.createElement("div");
+        var published = new Date(post.publishDate);
+
+        render(html`
+          <tngg-card image="${post.image}">
+            <h2 slot="title">${post.title}</h2>
+            <p slot="message">${post.description}</p>
+            <div slot="opened">
+              <h2>${post.title}</h2>
+              <div class="pull-right">
+                <div>${author ? "By: " + author.displayName : ""}</div>
+                <div>Published ${formatDate(published)}</div>
+              </div>
+              <div class="clear">
+                ${post.content.map((i) => html`<p>${i}</p>`)}
+              </div>
+            </div>
+          </tngg-card>
+          `, card);
+        document.querySelector(".container").appendChild(card.querySelector("tngg-card"));
+      });
+    })
+  });
+});
