@@ -32,7 +32,7 @@ initApp = function() {
       var phoneNumber = user.phoneNumber;
       var providerData = user.providerData;
 
-      firebase.database().ref('users/' + uid).set({
+      firebase.database().ref('users/' + uid).update({
         uid: uid,
         displayName: displayName,
         email: email,

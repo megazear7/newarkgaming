@@ -41,31 +41,30 @@ function formatDate(date) {
 }
 
 window.addEventListener('load', function() {
-  firebase.database().ref("/posts").on('value', (postSnapshot) => {
-    postSnapshot.val().forEach((post) => {
-      firebase.database().ref("/users/"+post.author).on('value', (authorSnapshot) => {
-        var author = authorSnapshot.val();
-        var card = document.createElement("div");
-        var published = new Date(post.publishDate);
+  firebase.database().ref("/posts").orderByChild("publishDate").on('child_added', (postSnapshot) => {
+    var post = postSnapshot.val();
+    firebase.database().ref("/users/"+post.author).once('value', (authorSnapshot) => {
+      var author = authorSnapshot.val();
+      var card = document.createElement("div");
+      var published = new Date(post.publishDate);
 
-        render(html`
-          <tngg-card image="${post.image}">
-            <h2 slot="title">${post.title}</h2>
-            <p slot="message">${post.description}</p>
-            <div slot="opened">
-              <h2>${post.title}</h2>
-              <div class="pull-right">
-                <div>${author ? "By: " + author.displayName : ""}</div>
-                <div>Published ${formatDate(published)}</div>
-              </div>
-              <div class="clear">
-                ${post.content.map((i) => html`<p>${i}</p>`)}
-              </div>
+      render(html`
+        <tngg-card image="${post.image}" data-uid="${postSnapshot.key}">
+          <h2 slot="title">${post.title}</h2>
+          <p slot="message">${post.description}</p>
+          <div slot="opened">
+            <h2>${post.title}</h2>
+            <div class="pull-right">
+              <div>${author ? "By: " + author.displayName : ""}</div>
+              <div>Published ${formatDate(published)}</div>
             </div>
-          </tngg-card>
-          `, card);
-        document.querySelector(".container").appendChild(card.querySelector("tngg-card"));
-      });
-    })
+            <div class="clear">
+              ${post.content.map((i) => html`<p>${i}</p>`)}
+            </div>
+          </div>
+        </tngg-card>
+        `, card);
+      document.querySelector(".container").appendChild(card.querySelector("tngg-card"));
+    });
   });
 });
