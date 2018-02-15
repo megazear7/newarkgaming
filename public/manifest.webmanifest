@@ -6,6 +6,7 @@
   "background_color": "#4ABDAC",
   "theme_color": "#FC4A14",
   "description": "A site for the latest information on the newark gaming group.",
+  "gcm_sender_id": "103953800507",
   "icons": [{
     "src": "/images/logo/meeple-27.png",
     "sizes": "27x27",

@@ -11,12 +11,21 @@
         "source": "**",
         "destination": "/index.html"
       }
-    ],
-    "headers": [
-      {
-        "source": "/",
-        "headers": [{"key": "Link", "value": "</js/main.js>;rel=preload;as=script,</js/tngg-card.js>;rel=preload;as=script,</vendor/lit-html/lit-html.js>,</vendor/lit-html/lib/lit-extended.js>,</vendor/lit-html-element/lit-element.js>;rel=preload;as=script,</css/main.css>;rel=preload;as=style"}]
-      }
     ]
+  },
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "functions": {
+    "predeploy": [
+      "npm --prefix $RESOURCE_DIR run lint"
+    ]
+  },
+  "storage": {
+    "rules": "storage.rules"
   }
 }
