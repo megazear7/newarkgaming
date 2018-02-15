@@ -75,6 +75,7 @@ export default class TnggPost extends LitElement {
             <option value="/images/gaming/stack1.jpg">Stack 1</option>
             <option value="/images/gaming/viticulture-board.jpg">Viticulture Board</option>
           </select>
+          <img src="${this.image}">
           <button class="submit-post" on-click=${(e) => this.submitPost()}>Submit Article</button>
         </div>
       </div>
@@ -133,6 +134,16 @@ export default class TnggPost extends LitElement {
         z-index: 6;
         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         border-radius: 0 0 5px 5px;
+      }
+
+      img {
+        height: 300px;
+        margin-left: 40px;
+        background-color: grey;
+      }
+
+      img:not([src]) {
+        width: 300px;
       }
 
       tngg-exit {
