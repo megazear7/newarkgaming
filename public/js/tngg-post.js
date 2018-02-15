@@ -145,16 +145,19 @@ export default class TnggPost extends LitElement {
   }
 
   submitPost() {
-    this.db.ref("/posts").push().set({
-      title: this.title,
-      description: this.description,
-      content: this.buildContent(),
-      image: this.image,
-      author: firebase.auth().currentUser.uid,
-      publishDate: Date.now()
-    });
-
-    this.closePopup();
+    if (this.title && this.description && this.image) {
+      this.db.ref("/posts").push().set({
+        title: this.title,
+        description: this.description,
+        content: this.buildContent(),
+        image: this.image,
+        author: firebase.auth().currentUser.uid,
+        publishDate: Date.now()
+      });
+      this.closePopup();
+    } else {
+      alert("Title, description and image are required fields.")
+    }
   }
 
   _styles() {

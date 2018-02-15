@@ -47,17 +47,23 @@ export default class TnggFeed extends LitElement {
                 <div>Published ${formatDate(post.published)}</div>
               </div>
               <div class="clear">
-                ${post.content.reverse().map((i) => { if (i.type === "header") { return html`
-                  <h3>${i.text}</h3>
-                `} else { return html`
-                  <p>${i.text}</p>
-                `}})}
+                ${post.content ? this._renderContent(post.content) : ""}
               </div>
             </div>
           </tngg-card>
         `)}
       </div>
     `
+  }
+
+  _renderContent(content) {
+    return content.map((i) => {
+      if (i.type === "header") {
+        return html`<h3>${i.text}</h3>`
+      } else {
+        return html`<p>${i.text}</p>`
+      }
+    });
   }
 
   _styles() {
