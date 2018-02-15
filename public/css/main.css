@@ -138,35 +138,13 @@ body {
   width: auto;
 }
 
-.container {
+.header {
   margin: 1rem;
 }
 
-tngg-card {
-  margin-bottom: 1rem;
-  text-shadow: 1px 1px 1px #111d;
-}
-
-tngg-card [slot="message"] {
-  color: #48464a;
-  text-shadow: none;
-}
-
-tngg-card h1[slot="message"] {
-  color: white;
-}
-
-tngg-card small {
+.header tngg-card small {
   display: block;
   font-size: 1rem;
-}
-
-.pull-right {
-  float: right;
-}
-
-.clear {
-  clear: both;
 }
 
 a {
@@ -175,15 +153,6 @@ a {
 
 @supports (display: grid) {
   @media (min-width: 800px) {
-    .container {
-      display: grid;
-      grid-gap: 1rem;
-    }
-
-    tngg-card {
-      margin-bottom: 0;
-    }
-
     #account {
       right: 20px;
       width: 120px;
@@ -202,21 +171,15 @@ a {
   }
 
   @media (min-width: 800px) and (max-width: 1000px) {
-    .container {
+    .header {
       display: grid;
       grid-gap: 1rem;
       grid-template-columns: 1fr 1fr 1fr 1fr;
       grid-template-rows: 1fr;
     }
 
-    tngg-card {
-      margin-bottom: 0;
-      grid-column: span 2;
-    }
-
-    .container tngg-card:first-of-type {
+    .header tngg-card {
       grid-column: 1 / 4;
-      grid-row: 1;
     }
 
     #account {
@@ -228,37 +191,9 @@ a {
   }
 
   @media (min-width: 1000px) {
-    .container {
-      display: grid;
-      grid-gap: 1rem;
+    .header {
       max-width: 950px;
       margin: 1rem auto;
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 1fr;
     }
-
-    tngg-card {
-      margin-bottom: 0;
-      grid-column: span 1;
-    }
-
-    tngg-post {
-      width: 950px;
-      display: block;
-      margin: auto;
-    }
-
-    .container tngg-card:nth-of-type(4n+3) {
-      grid-column: 2 / 4;
-    }
-
-    .container tngg-card:nth-of-type(4n+4) {
-      grid-column: 1 / 3;
-    }
-
-    .container tngg-card:first-of-type {
-      grid-column: 1 / 4;
-    }
-
   }
 }
