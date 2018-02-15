@@ -151,7 +151,7 @@ export default class TnggPost extends LitElement {
       content: this.buildContent(),
       image: this.image,
       author: firebase.auth().currentUser.uid,
-      publishDate: Date()
+      publishDate: Date.now()
     });
 
     this.closePopup();
