@@ -28,11 +28,13 @@ export default class TnggPost extends LitElement {
     this.s = (selector) => { return this.shadowRoot.querySelector(selector) };
 
     firebase.auth().onAuthStateChanged((user) => {
-      firebase.database().ref("/users/"+user.uid).once('value', (userDataSnapshot) => {
-        if (userDataSnapshot.val().permissions != "admin") {
-          this.s(".create-post").style.display = "none";
-        }
-      });
+      if (user) {
+        firebase.database().ref("/users/"+user.uid).once('value', (userDataSnapshot) => {
+          if (userDataSnapshot.val().permissions == "admin") {
+            this.s(".create-post").style.opacity = "1";
+          }
+        });
+      }
     });
   }
 
@@ -102,14 +104,15 @@ export default class TnggPost extends LitElement {
   _styles() {
     return html`<style>
       .create-post {
-        width: 400px;
         margin: 0 auto;
         display: block;
+        opacity: 0;
         padding: 50px;
         font-size: 30px;
         border-style: none;
         cursor: pointer;
         color: #313131;
+        background-color: #fff;
         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         transition: box-shadow 225ms ease-in-out;
       }
