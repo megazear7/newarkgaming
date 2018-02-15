@@ -1,4 +1,5 @@
 import { LitElement, html } from '/vendor/lit-html-element/lit-element.js';
+import TnggExit from '/js/tngg-exit.js'
 
 export default class TnggCard extends LitElement {
   static get is() {
@@ -45,7 +46,7 @@ export default class TnggCard extends LitElement {
       </div>
       <div class$="open-view ${this.open ? 'open' : ''} ${this.image ? '' : 'no-image'}">
         <div class="open-wrapper">
-          <div class="exit" on-click=${() => this.closeCard()}><div>&#10005;</div></div>
+          <tngg-exit on-click=${() => this.closeCard()}></tngg-exit>
           <div class="open-container">
             <slot name="opened">
           </div>
@@ -232,33 +233,6 @@ export default class TnggCard extends LitElement {
 
       .no-image.open-view {
         background-color: #FC4A14;
-      }
-
-      .open-view .exit {
-        font-size: 1.25rem;
-        line-height: 1.25rem;
-        width: 1.25rem;
-        padding: 0.1rem;
-        text-align: center;
-        border-radius: 1.25rem;
-        border: 3px solid #fff;
-        cursor: pointer;
-        float: right;
-        transition: box-shadow 0.5s ease-in-out;
-      }
-
-      .open-view .exit:hover {
-        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-      }
-
-      .open-view .exit div {
-        text-shadow: 0px 0px 0px #111d;
-        transition: text-shadow 0.5s ease-in-out, transform 0.5s ease-in-out;
-      }
-
-      .open-view .exit div:hover {
-        text-shadow: 2px 2px 2px #111d;
-        transform: rotate(360deg);
       }
 
       .open-view .open-wrapper {

@@ -64,7 +64,7 @@ export default class TnggPost extends LitElement {
       <button class="create-post" on-click=${(e) => this.openPopup()}>Post New Article</button>
       <div class="popup-container">
         <div class="centered">
-          <div class="close" on-click=${(e) => this.closePopup()} >&#10005;</div>
+          <tngg-exit on-click=${() => this.closePopup()}></tngg-exit>
           <input placeholder="Enter a title" name="title" on-change=${(e) => this.titleChanged()} />
           <input placeholder="Enter a description" name="description" on-change=${(e) => this.descriptionChanged()} />
           <select name="image" on-change=${(e) => this.imageChanged()}>
@@ -135,11 +135,8 @@ export default class TnggPost extends LitElement {
         border-radius: 0 0 5px 5px;
       }
 
-      .close {
+      tngg-exit {
         color: black;
-        float: right;
-        font-size: 30px;
-        cursor: pointer;
       }
 
       .popup-container.open {
