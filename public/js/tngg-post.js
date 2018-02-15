@@ -26,6 +26,8 @@ export default class TnggPost extends LitElement {
     super();
     this.db = firebase.database();
     this.s = (selector) => { return this.shadowRoot.querySelector(selector) };
+    this.sAll = (selector) => { return this.shadowRoot.querySelectorAll(selector) };
+    this.content = [];
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -52,10 +54,15 @@ export default class TnggPost extends LitElement {
 
   openPopup() {
     this.s(".popup-container").classList.add("open");
+    var viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    document.querySelector("body").style.height = viewportHeight+"px";
+    document.querySelector("body").style.overflow = "hidden";
   }
 
   closePopup() {
     this.s(".popup-container").classList.remove("open");
+    document.querySelector("body").style.height = "initial";
+    document.querySelector("body").style.overflow = "initial";
   }
 
   render() {
@@ -70,6 +77,17 @@ export default class TnggPost extends LitElement {
                     name="description"
                     on-change=${(e) => this.descriptionChanged()}
                     on-keydown=${(e) => this.autosize()}}></textarea>
+          <div class="content">
+            ${this.content.map((item) => { if (item.type === "header") { return html`
+                <input class="header" placeholder="Enter a Header"} />
+              `} else { return html`
+                <textarea placeholder="Enter a paragraph"
+                          on-keydown=${(e) => this.autosize()}}></textarea>
+              `}
+            })}
+          </div>
+          <button class="add-header" on-click=${(e) => this.addHeader()}>Add Header</button>
+          <button class="add-paragraph" on-click=${(e) => this.addParagraph()}>Add Paragraph</button>
           <select name="image" on-change=${(e) => this.imageChanged()}>
             <option>Choose Image</option>
             <option value="/images/gaming/playing1.jpg">Playing 1</option>
@@ -85,19 +103,45 @@ export default class TnggPost extends LitElement {
     `
   }
 
+  addHeader() {
+    this.content.push({type: "header", text: "example a"});
+    this.buildContent();
+    this.invalidate();
+  }
+
+  addParagraph() {
+    this.content.push({type: "paragraph", text: "example b"});
+    this.buildContent();
+    this.invalidate();
+  }
+
   autosize() {
     setTimeout(() => {
-      var textarea = this.s('textarea');
-      textarea.style.cssText = 'height:auto; padding:0';
-      textarea.style.cssText = 'height:' + textarea.scrollHeight + 'px';
+      this.sAll('textarea').forEach((textarea) => {
+        textarea.style.cssText = 'height:auto; padding:0';
+        textarea.style.cssText = 'height:' + (textarea.scrollHeight + 10) + 'px';
+      });
     }, 0);
   }
 
   buildContent() {
-    return [
-      "Example A",
-      "Another Example BBB"
-    ];
+    var content = [];
+
+    this.sAll(".content > *").forEach((item) => {
+      if (item.classList.contains("header")) {
+        content.push({
+          type: "header",
+          text: item.value
+        })
+      } else {
+        content.push({
+          type: "paragraph",
+          text: item.value
+        })
+      }
+    });
+
+    return content;
   }
 
   submitPost() {
@@ -135,21 +179,25 @@ export default class TnggPost extends LitElement {
 
       .popup-container {
         position: fixed;
+        overflow-y: scroll;
+        overflow-x: hidden;
         top: 0;
         left: 0;
         height: 0;
         width: 100%;
         transition: height 225ms ease-in-out;
         background-color: #fff;
-        overflow: hidden;
         z-index: 6;
         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         border-radius: 0 0 5px 5px;
       }
 
+      .content {
+        color: #313131;
+      }
+
       img {
         height: 300px;
-        margin-left: 40px;
         background-color: grey;
       }
 
@@ -166,6 +214,8 @@ export default class TnggPost extends LitElement {
       }
 
       .centered {
+        box-sizing: border-box;
+        padding: 20px;
         width: 100%;
         margin: auto;
       }
@@ -178,41 +228,43 @@ export default class TnggPost extends LitElement {
       }
 
       [name="title"] {
-        font-size: 30px;
+        font-size: 1.75rem;
       }
 
-      [name="description"] {
-        font-size: 20px;
+      input.header {
+        font-size: 1.25rem;
       }
 
       textarea, input, select, button {
         display: block;
-        margin: 20px;
+        margin: 0 0 30px 0;
         color: #313131;
       }
 
-      button.submit-post {
+      input {
+        color: #313131;
+      }
+
+      .popup-container button {
         padding: 10px;
+        font-size: 0.75rem;
         background-color: #0000;
         border-radius: 3px;
         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         transition: box-shadow 225ms ease-in-out;
       }
 
-      button.submit-post, select {
-        margin-left: 40px;
-      }
-
-      button.submit-post:hover {
+      .popup-container button:hover {
         box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
       }
 
-      option {
-        padding: 5px;
+      .popup-container button:focus {
+        outline: none;
       }
 
-      button.submit-post:focus {
-        outline: none;
+      select {
+        font-size: 0.75rem;
+        color: #555;
       }
 
       textarea, input:focus, select:focus {
@@ -223,13 +275,19 @@ export default class TnggPost extends LitElement {
         background-color: #fff;
         border: none;
         width: 100%;
-        padding-left: 20px;
         transition: border 225ms ease-in-out;
       }
 
       textarea {
-        resize: vertical;
-        box-sizing: content-box;
+        font-size: 1rem;
+        resize: none;
+        box-sizing: border-box;
+        color: #555;
+      }
+
+      .popup-container .submit-post {
+        background-color: #4ABDAC;
+        color: #fff;
       }
     </style>`
   }

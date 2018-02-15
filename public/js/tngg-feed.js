@@ -47,7 +47,11 @@ export default class TnggFeed extends LitElement {
                 <div>Published ${formatDate(post.published)}</div>
               </div>
               <div class="clear">
-                ${post.content.map((i) => html`<p>${i}</p>`)}
+                ${post.content.map((i) => { if (i.type === "header") { return html`
+                  <h3>${i.text}</h3>
+                `} else { return html`
+                  <p>${i.text}</p>
+                `}})}
               </div>
             </div>
           </tngg-card>
