@@ -66,7 +66,10 @@ export default class TnggPost extends LitElement {
         <div class="centered">
           <tngg-exit on-click=${() => this.closePopup()}></tngg-exit>
           <input placeholder="Enter a title" name="title" on-change=${(e) => this.titleChanged()} />
-          <input placeholder="Enter a description" name="description" on-change=${(e) => this.descriptionChanged()} />
+          <textarea placeholder="Enter a description"
+                    name="description"
+                    on-change=${(e) => this.descriptionChanged()}
+                    on-keydown=${(e) => this.autosize()}}></textarea>
           <select name="image" on-change=${(e) => this.imageChanged()}>
             <option>Choose Image</option>
             <option value="/images/gaming/playing1.jpg">Playing 1</option>
@@ -80,6 +83,14 @@ export default class TnggPost extends LitElement {
         </div>
       </div>
     `
+  }
+
+  autosize() {
+    setTimeout(() => {
+      var textarea = this.s('textarea');
+      textarea.style.cssText = 'height:auto; padding:0';
+      textarea.style.cssText = 'height:' + textarea.scrollHeight + 'px';
+    }, 0);
   }
 
   buildContent() {
@@ -174,7 +185,7 @@ export default class TnggPost extends LitElement {
         font-size: 20px;
       }
 
-      input, select, button {
+      textarea, input, select, button {
         display: block;
         margin: 20px;
         color: #313131;
@@ -204,16 +215,21 @@ export default class TnggPost extends LitElement {
         outline: none;
       }
 
-      input:focus, select:focus {
+      textarea, input:focus, select:focus {
         outline: none;
       }
 
-      input {
+      textarea, input {
         background-color: #fff;
         border: none;
         width: 100%;
         padding-left: 20px;
         transition: border 225ms ease-in-out;
+      }
+
+      textarea {
+        resize: vertical;
+        box-sizing: content-box;
       }
     </style>`
   }
