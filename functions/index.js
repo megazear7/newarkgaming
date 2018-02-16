@@ -5,7 +5,10 @@ admin.initializeApp(functions.config().firebase);
 var newArticleTopic = 'new-article';
 
 exports.subscribeToArticleTopic = functions.database.ref('/users/{userId}/notificationTokens/{token}').onCreate((event) => {
-  const token = event.data.val();
+  const isActive = event.data.val();
+  if (! isActive) return;
+
+  const token = event.params.token
   console.log("subscribeToArticleTopic: Token: " + token);
 
   return admin.messaging().subscribeToTopic([token], newArticleTopic)
