@@ -79,8 +79,8 @@ export default class TnggPost extends LitElement {
                     on-keydown=${(e) => this.autosize()}}></textarea>
           <div class="content">
             ${this.content.map((item) => { if (item.type === "header") { return html`
-                <div class="content-item">
-                  <input class="header" placeholder="Enter a Header"} />
+                <div class="content-item header">
+                  <input placeholder="Enter a Header"} />
                   <div class="remove" on-click=${(e) => this.removeItem(e.target)}>&#10005;</div>
                 </div>
               `} else { return html`
@@ -137,16 +137,16 @@ export default class TnggPost extends LitElement {
   buildContent() {
     var content = [];
 
-    this.sAll(".content > *").forEach((item) => {
+    this.sAll(".content > .content-item").forEach((item) => {
       if (item.classList.contains("header")) {
         content.push({
           type: "header",
-          text: item.value
+          text: item.querySelector("input").value
         })
       } else {
         content.push({
           type: "paragraph",
-          text: item.value
+          text: item.querySelector("textarea").value
         })
       }
     });
@@ -255,7 +255,7 @@ export default class TnggPost extends LitElement {
         font-size: 1.75rem;
       }
 
-      input.header {
+      .header input {
         font-size: 1.25rem;
       }
 
@@ -324,6 +324,7 @@ export default class TnggPost extends LitElement {
         right: 0;
         cursor: pointer;
         transition: transform 0.5s ease-in-out;
+        color: #444;
       }
 
       .content-item .remove:hover {
