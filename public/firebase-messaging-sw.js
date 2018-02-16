@@ -7,12 +7,12 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-// TODO Instead of having a databse listener in a cloud function can we just
-// subscribe to a topic right here?
-//messaging.subscribeToTopic("new-article");
-
 messaging.setBackgroundMessageHandler(function(payload) {
   console.log('[firebase-messaging-sw.js] Received background message ', payload);
+  payload.notification.vibrate = [250, 250];
+  payload.notification.requireInteraction = true;
+  payload.notification.image = payload.data.image;
+  payload.notification.badge = payload.data.badge;
   return self.registration.showNotification(payload.notification.title, payload.notification);
 });
 

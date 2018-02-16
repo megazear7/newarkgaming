@@ -60,10 +60,14 @@ messaging.onTokenRefresh(function() {
 });
 
 messaging.onMessage(function(payload) {
-  console.log("<main.js> Message received. ", payload);
+  console.log("[main.js] Message received. ", payload);
   if (!("Notification" in window)) {
     alert("This browser does not support system notifications");
   } else if (Notification.permission === "granted") {
+    payload.notification.vibrate = [250, 250];
+    payload.notification.requireInteraction = true;
+    payload.notification.image = payload.data.image;
+    payload.notification.badge = payload.data.badge;
     var notification = new Notification(payload.notification.title, payload.notification);
   }
 });

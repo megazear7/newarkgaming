@@ -24,7 +24,8 @@ exports.subscribeToArticleTopic = functions.database.ref('/users/{userId}/notifi
 exports.sendPostNotification = functions.database.ref('/posts/{postId}').onCreate((event) => {
   const postId = event.params.postId;
   console.log(postId);
-  const authorUid = event.data.val().author;
+  const post = event.data.val();
+  const authorUid = post.author;
   console.log(authorUid)
 
   const authorPromise = admin.database().ref(`/users/${authorUid}`).once('value');
@@ -35,10 +36,14 @@ exports.sendPostNotification = functions.database.ref('/posts/{postId}').onCreat
 
     var message = {
       notification: {
-        title: 'There is a new post!',
-        body: `${author.displayName} posted to the Newark gaming group.`,
+        title: post.title,
+        body: `${author.displayName} posted a new article to the Newark Gaming group.`,
         icon: 'https://newarkgaming.firebaseapp.com/images/logo/meeple-132.png',
         click_action: 'https://newarkgaming.firebaseapp.com'
+      },
+      data: {
+        image: post.image,
+        badge: 'https://newarkgaming.firebaseapp.com/images/logo/meeple-132.png'
       }
     };
 
