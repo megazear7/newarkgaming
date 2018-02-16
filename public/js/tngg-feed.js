@@ -20,14 +20,30 @@ export default class TnggFeed extends LitElement {
   }
 
   loadCards() {
-    this.db.ref("/posts").orderByChild("publishDate").on('child_added', (postSnapshot) => {
+    var createPost = (postSnapshot, callback) => {
       var post = postSnapshot.val();
-      this.db.ref("/users/"+post.author).once('value', (authorSnapshot) => {
-        post.uid = postSnapshot.key;
-        post.author = authorSnapshot.val();
-        post.published = new Date(post.publishDate);
-        this.posts.push(post)
-        this.invalidate();
+      post.uid = postSnapshot.key;
+      if (! this.posts.map((i) => i.uid).includes(post.uid)) {
+        this.db.ref("/users/"+post.author).once('value', (authorSnapshot) => {
+          post.author = authorSnapshot.val();
+          post.published = new Date(post.publishDate);
+          callback(post);
+          this.invalidate();
+        });
+      }
+    }
+
+    this.db.ref("/posts").orderByChild("publishDate").once('value', (posts) => {
+      posts.forEach((postSnapshot) => {
+        createPost(postSnapshot, (post) => {
+          this.posts.push(post);
+        });
+      });
+
+      this.db.ref("/posts").on('child_added', (postSnapshot) => {
+        createPost(postSnapshot, (post) => {
+          this.posts.unshift(post);
+        });
       });
     });
   }
