@@ -210,12 +210,23 @@ export default class TnggPost extends LitElement {
       }
 
       img {
-        height: 300px;
+        width: 100%;
         background-color: grey;
       }
 
       img:not([src]) {
-        width: 300px;
+        height: 300px;
+      }
+
+      @media (min-width: 800px) {
+        img {
+          height: 300px;
+          width: auto;
+        }
+
+        img:not([src]) {
+          width: 300px;
+        }
       }
 
       tngg-exit {
