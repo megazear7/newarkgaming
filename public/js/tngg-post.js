@@ -79,10 +79,16 @@ export default class TnggPost extends LitElement {
                     on-keydown=${(e) => this.autosize()}}></textarea>
           <div class="content">
             ${this.content.map((item) => { if (item.type === "header") { return html`
-                <input class="header" placeholder="Enter a Header"} />
+                <div class="content-item">
+                  <input class="header" placeholder="Enter a Header"} />
+                  <div class="remove" on-click=${(e) => this.removeItem(e.target)}>&#10005;</div>
+                </div>
               `} else { return html`
-                <textarea placeholder="Enter a paragraph"
-                          on-keydown=${(e) => this.autosize()}}></textarea>
+                <div class="content-item">
+                  <textarea placeholder="Enter a paragraph"
+                            on-keydown=${(e) => this.autosize()}}></textarea>
+                  <div class="remove" on-click=${(e) => this.removeItem(e.target)}>&#10005;</div>
+                </div>
               `}
             })}
           </div>
@@ -101,6 +107,10 @@ export default class TnggPost extends LitElement {
         </div>
       </div>
     `
+  }
+
+  removeItem(target) {
+    target.parentNode.remove();
   }
 
   addHeader() {
@@ -291,6 +301,23 @@ export default class TnggPost extends LitElement {
       .popup-container .submit-post {
         background-color: #4ABDAC;
         color: #fff;
+      }
+
+      .content-item {
+        position: relative;
+      }
+
+      .content-item .remove {
+        position: absolute;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+        transition: transform 0.5s ease-in-out;
+      }
+
+      .content-item .remove:hover {
+        transform: rotate(360deg);
+        color: #f63;
       }
     </style>`
   }
