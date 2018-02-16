@@ -1,18 +1,26 @@
-var uiConfig = {
-  signInSuccessUrl: '/',
-  signInOptions: [
-    {
-      provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      authMethod: 'https://accounts.google.com',
-      clientId: '838382712391-38utf875dfbieg6ovfem73ddhl98kr00.apps.googleusercontent.com'
-    },
-    firebase.auth.EmailAuthProvider.PROVIDER_ID
-  ],
-  credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO
-};
-var ui = new firebaseui.auth.AuthUI(firebase.auth());
-
 initApp = function() {
+  var clientId;
+
+  if (window.location.hostname.indexOf("stage") >= 0) {
+    clientId = "1051435527349-b6pp97dsgms9q6ckqm42s51gfdq3gk4d.apps.googleusercontent.com";
+  } else {
+    clientId = "838382712391-38utf875dfbieg6ovfem73ddhl98kr00.apps.googleusercontent.com";
+  }
+
+  var uiConfig = {
+    signInSuccessUrl: '/',
+    signInOptions: [
+      {
+        provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        authMethod: 'https://accounts.google.com',
+        clientId: clientId
+      },
+      firebase.auth.EmailAuthProvider.PROVIDER_ID
+    ],
+    credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+  };
+  var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       var displayName = user.displayName;

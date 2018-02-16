@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "newarkgaming"
+    "default": "newarkgaming-stage",
+    "prod": "newarkgaming",
+    "stage": "newarkgaming-stage"
   }
 }
