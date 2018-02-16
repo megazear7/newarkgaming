@@ -29,7 +29,6 @@ const messaging = firebase.messaging();
 
 messaging.requestPermission()
 .then(function() {
-  console.log('Notification permission granted.');
 })
 .catch(function(err) {
   console.log('Unable to get permission to notify.', err);
@@ -38,7 +37,6 @@ messaging.requestPermission()
 messaging.getToken()
 .then(function(currentToken) {
   if (currentToken) {
-    console.log(currentToken);
     sendTokenToServer(currentToken);
   } else {
     console.log('No Instance ID token available. Request permission to generate one.');
@@ -51,7 +49,6 @@ messaging.getToken()
 messaging.onTokenRefresh(function() {
   messaging.getToken()
   .then(function(refreshedToken) {
-    console.log('Token refreshed: ' + refreshedToken);
     sendTokenToServer(refreshedToken);
   })
   .catch(function(err) {
@@ -60,7 +57,6 @@ messaging.onTokenRefresh(function() {
 });
 
 messaging.onMessage(function(payload) {
-  console.log("[main.js] Message received. ", payload);
   if (!("Notification" in window)) {
     alert("This browser does not support system notifications");
   } else if (Notification.permission === "granted") {
@@ -74,7 +70,9 @@ messaging.onMessage(function(payload) {
 
 function sendTokenToServer(token) {
   var unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-    firebase.database().ref(`/users/${user.uid}/notificationTokens/${token}`).set(true);
-    unsubscribe();
+    if (user) {
+      firebase.database().ref(`/users/${user.uid}/notificationTokens/${token}`).set(true);
+      unsubscribe();
+    }
   });
 }

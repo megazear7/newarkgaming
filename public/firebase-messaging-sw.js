@@ -8,7 +8,6 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.setBackgroundMessageHandler(function(payload) {
-  console.log('[firebase-messaging-sw.js] Received background message ', payload);
   payload.notification.vibrate = [250, 250];
   payload.notification.requireInteraction = true;
   payload.notification.image = payload.data.image;
