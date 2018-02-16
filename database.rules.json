@@ -12,7 +12,9 @@
     "posts": {
       ".read": true,
       ".write": "auth != null",
-      ".validate": "newData.hasChildren(['title', 'description', 'image', 'publishDate']) && newData.child('title').isString() && newData.child('description').isString() && newData.child('image').isString() && newData.child('publishDate').isNumber()"
+      "$postId": {
+        ".validate": "newData.hasChildren(['title', 'description', 'image', 'publishDate']) && newData.child('title').isString() && newData.child('description').isString() && newData.child('image').isString() && newData.child('publishDate').isNumber()"
+      }
     }
   }
 }
