@@ -4,6 +4,13 @@ admin.initializeApp(functions.config().firebase);
 
 var newArticleTopic = 'new-article';
 
+// Example: https://us-central1-<APP_NAME>.cloudfunctions.net/makeAdmin?uid=<USER_UID>
+exports.makeAdmin = functions.https.onRequest((req, res) => {
+  admin.auth().setCustomUserClaims(req.query.uid, {admin: true})
+  .then(() => res.send("Specified user is now an admin"))
+  .catch(() => res.send("An error occured"))
+});
+
 exports.subscribeToArticleTopic = functions.database.ref('/users/{userId}/notificationTokens/{token}').onCreate((event) => {
   const isActive = event.data.val();
   if (! isActive) return;

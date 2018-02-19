@@ -31,10 +31,8 @@ export default class TnggPost extends LitElement {
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        firebase.database().ref("/users/"+user.uid).once('value', (userDataSnapshot) => {
-          if (userDataSnapshot.val().permissions == "admin") {
-            this.s(".create-post").style.opacity = "1";
-          }
+        isAdmin().then(() => {
+          this.s(".create-post").style.opacity = "1";
         });
       }
     });

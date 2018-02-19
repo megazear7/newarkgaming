@@ -76,3 +76,16 @@ function sendTokenToServer(token) {
     }
   });
 }
+
+window.isAdmin = function() {
+  return new Promise(function(resolve, reject) {
+    firebase.auth().currentUser.getIdToken()
+    .then((idToken) => {
+      if (JSON.parse(atob(idToken.split(".")[1])).admin) {
+        resolve();
+      } else {
+        reject();
+      }
+    });
+  });
+}
