@@ -1,5 +1,5 @@
-const PRECACHE = 'precache-v32';
-const RUNTIME = 'runtime-v31';
+const PRECACHE = 'precache-v33';
+const RUNTIME = 'runtime-v33';
 
 const PRECACHE_URLS = [
   "",
@@ -11,6 +11,7 @@ const PRECACHE_URLS = [
   "js/tngg-post.js",
   "js/tngg-exit.js",
   "css/main.css",
+  "vendor/idb/lib/idb.js",
   "vendor/lit-html/lit-html.js",
   "vendor/lit-html/lib/lit-extended.js",
   "vendor/lit-html-element/lit-element.js",
