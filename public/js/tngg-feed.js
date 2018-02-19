@@ -16,32 +16,54 @@ export default class TnggFeed extends LitElement {
     this.db = firebase.database();
     this.s = this.shadowRoot.querySelector;
     this.posts = [ ];
+    this.idb = idb.open('newarkgaming', 1, (upgradeDB) => {
+      switch (upgradeDB.oldVersion) {
+        case 0:
+          upgradeDB.createObjectStore('posts', {keyPath: 'uid'}).createIndex('publishDate', 'publishDate');
+      }
+    });
+
+    this.idb.then(db => {
+      const tx = db.transaction('posts');
+      tx.objectStore('posts').index("publishDate").iterateCursor(cursor => {
+        if (!cursor) return;
+        this.posts.unshift(cursor.value);
+        this.invalidate();
+        cursor.continue();
+      });
+    });
+
     this.loadCards();
   }
 
   loadCards() {
-    var createPost = (postSnapshot, callback) => {
+    var addPost = (postSnapshot, callback) => {
       var post = postSnapshot.val();
       post.uid = postSnapshot.key;
-      if (! this.posts.map((i) => i.uid).includes(post.uid)) {
+      if (! this.posts.map(i => i.uid).includes(post.uid)) {
         this.db.ref("/users/"+post.author).once('value', (authorSnapshot) => {
           post.author = authorSnapshot.val();
           post.published = new Date(post.publishDate);
           callback(post);
           this.invalidate();
+          this.idb.then(db => {
+            const tx = db.transaction('posts', 'readwrite');
+            tx.objectStore('posts').put(post);
+            return tx.complete;
+          });
         });
       }
     }
 
     this.db.ref("/posts").orderByChild("publishDate").once('value', (posts) => {
       posts.forEach((postSnapshot) => {
-        createPost(postSnapshot, (post) => {
+        addPost(postSnapshot, (post) => {
           this.posts.push(post);
         });
       });
 
       this.db.ref("/posts").on('child_added', (postSnapshot) => {
-        createPost(postSnapshot, (post) => {
+        addPost(postSnapshot, (post) => {
           this.posts.unshift(post);
         });
       });

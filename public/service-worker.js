@@ -1,30 +1,38 @@
-const PRECACHE = 'precache-v26';
-const RUNTIME = 'runtime-v26';
+const PRECACHE = 'precache-v31';
+const RUNTIME = 'runtime-v31';
 
-// A list of local resources we always want to be cached.
 const PRECACHE_URLS = [
   "",
   "/",
-  "/js/main.js",
-  "/js/tngg-card.js",
-  "/vendor/lit-html/lit-html.js",
-  "/vendor/lit-html/lib/lit-extended.js",
-  "/vendor/lit-html-element/lit-element.js",
-  "/css/main.css"
+  "js/main.js",
+  "js/firebase.js",
+  "js/tngg-feed.js",
+  "js/tngg-card.js",
+  "js/tngg-post.js",
+  "js/tngg-exit.js",
+  "css/main.css",
+  "vendor/lit-html/lit-html.js",
+  "vendor/lit-html/lib/lit-extended.js",
+  "vendor/lit-html-element/lit-element.js",
+  "manifest.webmanifest",
+  "__/firebase/4.10.0/firebase-app.js",
+  "__/firebase/4.10.0/firebase-auth.js",
+  "__/firebase/4.10.0/firebase-database.js",
+  "__/firebase/4.10.0/firebase-messaging.js",
+  "__/firebase/init.js"
 ];
 
-// The install handler takes care of precaching the resources we always need.
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(PRECACHE)
       .then(cache => cache.addAll(PRECACHE_URLS))
+      .then(createDB())
       .then(self.skipWaiting())
   );
 });
 
-// The activate handler takes care of cleaning up old caches.
 self.addEventListener('activate', event => {
-  const currentCaches = [PRECACHE, RUNTIME];
+  const currentCaches = [PRECACHE, RUNTIME ];
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return cacheNames.filter(cacheName => !currentCaches.includes(cacheName));
@@ -36,11 +44,7 @@ self.addEventListener('activate', event => {
   );
 });
 
-// The fetch handler serves responses for same-origin resources from a cache.
-// If no response is found, it populates the runtime cache with the response
-// from the network before returning it to the page.
 self.addEventListener('fetch', event => {
-  // Skip cross-origin requests, like those for Google Analytics.
   if (event.request.url.startsWith(self.location.origin)) {
     event.respondWith(
       caches.match(event.request).then(cachedResponse => {
@@ -50,7 +54,6 @@ self.addEventListener('fetch', event => {
 
         return caches.open(RUNTIME).then(cache => {
           return fetch(event.request).then(response => {
-            // Put a copy of the response in the runtime cache.
             return cache.put(event.request, response.clone()).then(() => {
               return response;
             });
