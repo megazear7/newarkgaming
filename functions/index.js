@@ -4,11 +4,16 @@ admin.initializeApp(functions.config().firebase);
 
 var newArticleTopic = 'new-article';
 
-// Example: https://us-central1-<APP_NAME>.cloudfunctions.net/makeAdmin?uid=<USER_UID>
-exports.makeAdmin = functions.https.onRequest((req, res) => {
-  admin.auth().setCustomUserClaims(req.query.uid, {admin: true})
-  .then(() => res.send("Specified user is now an admin"))
-  .catch(() => res.send("An error occured"))
+// The permissions node on the user needs to be protected so that only admins can update it.
+// Then, from an admin client updated the desired users "permissions" property to "admin" to give them the admin user claim.
+exports.updateToAdmin = functions.database.ref('/users/{userId}/permissions').onUpdate((event) => {
+  if (event.data.val() === "admin") {
+    console.log("Updating to admin: " + event.params.userId);
+    return admin.auth().setCustomUserClaims(event.params.userId, {admin: true});
+  } else {
+    console.log("Updating to NOT admin: " + event.params.userId);
+    return admin.auth().setCustomUserClaims(event.params.userId, {admin: false});
+  }
 });
 
 exports.subscribeToArticleTopic = functions.database.ref('/users/{userId}/notificationTokens/{token}').onCreate((event) => {
@@ -18,14 +23,12 @@ exports.subscribeToArticleTopic = functions.database.ref('/users/{userId}/notifi
   const token = event.params.token
   console.log("subscribeToArticleTopic: Token: " + token);
 
-  return admin.messaging().subscribeToTopic([token], newArticleTopic)
+  admin.messaging().subscribeToTopic([token], newArticleTopic)
   .then((response) => {
     console.log('Successfully subscribed to topic:', response);
     return response;
   })
-  .catch((error) => {
-    console.log('Error subscribing to topic:', error);
-  });
+  .catch((error) => console.log('Error subscribing to topic:', error));
 });
 
 exports.sendPostNotification = functions.database.ref('/posts/{postId}').onCreate((event) => {
@@ -37,7 +40,7 @@ exports.sendPostNotification = functions.database.ref('/posts/{postId}').onCreat
 
   const authorPromise = admin.database().ref(`/users/${authorUid}`).once('value');
 
-  return authorPromise.then((authorSnapshot) => {
+  authorPromise.then((authorSnapshot) => {
     const author = authorSnapshot.val();
     console.log(author.displayName);
 
@@ -69,5 +72,6 @@ exports.sendPostNotification = functions.database.ref('/posts/{postId}').onCreat
       }
     });
     return Promise.all(tokensToRemove);
-  });
+  })
+  .catch((error) => console.log('Error sending post notification: ', error));
 });

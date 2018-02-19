@@ -6,6 +6,9 @@
         ".read": true,
         "email": {
           ".read": "$uid === auth.uid"
+        },
+        "permissions": {
+          ".write": "auth.token.admin === true"
         }
       }
     },
