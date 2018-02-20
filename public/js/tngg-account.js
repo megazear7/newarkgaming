@@ -1,4 +1,4 @@
-import { LitElement, html } from '/vendor/lit-html-element/lit-element.js';
+import { LitElement, html } from '../vendor/lit-html-element/lit-element.js';
 
 export default class TnggAccount extends LitElement {
   static get is() {

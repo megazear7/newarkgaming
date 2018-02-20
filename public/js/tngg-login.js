@@ -1,4 +1,6 @@
-import { LitElement, html } from '/vendor/lit-html-element/lit-element.js';
+import { LitElement, html } from '../vendor/lit-html-element/lit-element.js';
+
+console.log("B");
 
 export default class TnggLogin extends LitElement {
   static get is() {
@@ -7,6 +9,7 @@ export default class TnggLogin extends LitElement {
 
   constructor() {
     super();
+    console.log("C");
   }
 
   firstInit() {

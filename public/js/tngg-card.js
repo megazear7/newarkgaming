@@ -1,5 +1,5 @@
-import { LitElement, html } from '/vendor/lit-html-element/lit-element.js';
-import TnggExit from '/js/tngg-exit.js'
+import { LitElement, html } from '../vendor/lit-html-element/lit-element.js';
+import TnggExit from './tngg-exit.js'
 
 export default class TnggCard extends LitElement {
   static get is() {

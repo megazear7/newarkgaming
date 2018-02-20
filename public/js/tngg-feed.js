@@ -1,5 +1,5 @@
-import { LitElement, html } from '/vendor/lit-html-element/lit-element.js';
-import TnngCard from "/js/tngg-card.js";
+import { LitElement, html } from '../vendor/lit-html-element/lit-element.js';
+import TnngCard from "./tngg-card.js";
 
 export default class TnggFeed extends LitElement {
   static get is() {
