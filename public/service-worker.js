@@ -1,11 +1,10 @@
-const PRECACHE = 'precache-v33';
-const RUNTIME = 'runtime-v33';
+const PRECACHE = 'precache-v35';
+const RUNTIME = 'runtime-v35';
 
 const PRECACHE_URLS = [
   "",
   "/",
   "js/main.js",
-  "js/firebase.js",
   "js/tngg-feed.js",
   "js/tngg-card.js",
   "js/tngg-post.js",
@@ -27,7 +26,6 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(PRECACHE)
       .then(cache => cache.addAll(PRECACHE_URLS))
-      .then(createDB())
       .then(self.skipWaiting())
   );
 });

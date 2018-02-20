@@ -1,6 +1,8 @@
+import TnngLogin from "/js/tngg-login.js";
+import TnngAccount from "/js/tngg-account.js";
+import TnngFeed from "/js/tngg-feed.js";
 import TnngCard from "/js/tngg-card.js";
 import TnngPost from "/js/tngg-post.js";
-import TnngFeed from "/js/tngg-feed.js";
 
 var backgroundImage = new Image()
 var openImgType = window.isMobile ? ".mobile" : ".desktop";

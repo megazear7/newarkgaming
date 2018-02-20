@@ -20,20 +20,12 @@
 
   <body>
     <div class="overlay-color"></div>
-    <div class="header">
-      <div id="account">
-        <div id="display-name"></div>
-        <div id="sign-out"></div>
-        <img id="avatar">
-      </div>
 
-      <div id="login">
+    <div class="header">
+      <tngg-account></tngg-account>
+      <tngg-login>
         <div id="firebaseui-auth-container"></div>
-        <div id="login-opener">
-          <span id="login-message">Login</span>
-          <div id="login-toggle"></div>
-        </div>
-      </div>
+      </tngg-login>
 
       <tngg-card banner bold nonopenable>
         <h1 slot="message"><small>the</small> Newark Gaming Group</h1>
@@ -41,7 +33,6 @@
     </div>
 
     <tngg-feed></tngg-feed>
-
     <tngg-post></tngg-post>
 
     <script type="module" src="/js/main.js"></script>
@@ -53,6 +44,5 @@
       }
     </script>
     <script src="/vendor/idb/lib/idb.js"></script>
-    <script src="/js/firebase.js"></script>
   </body>
 </html>
