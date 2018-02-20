@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#FC4A14">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="icon" type="image/png" href="/images/logo/meeple-132.png" />
+    <title>Newark Gaming</title>
+
+    <script defer src="/__/firebase/4.10.0/firebase-app.js"></script>
+    <script defer src="/__/firebase/4.10.0/firebase-auth.js"></script>
+    <script defer src="/__/firebase/4.10.0/firebase-database.js"></script>
+    <script defer src="/__/firebase/4.10.0/firebase-messaging.js"></script>
+    <script defer src="https://cdn.firebase.com/libs/firebaseui/2.6.0/firebaseui.js"></script>
+    <script defer src="/__/firebase/init.js"></script>
+
+    <link href="/css/main.css" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <div class="overlay-color"></div>
+
+    <div class="header">
+      <div id="account">
+        <div id="display-name"></div>
+        <div id="sign-out"></div>
+        <img id="avatar">
+      </div>
+
+      <div id="login">
+        <div id="firebaseui-auth-container"></div>
+        <div id="login-opener">
+          <span id="login-message">Login</span>
+          <div id="login-toggle"></div>
+        </div>
+      </div>
+
+      <tngg-card banner bold nonopenable>
+        <h1 slot="message"><small>the</small> Newark Gaming Group</h1>
+      </tngg-card>
+    </div>
+
+    <tngg-feed>
+      {{#each posts}}
+        <tngg-card image="{{image}}">
+          <h2 slot="title">{{title}}</h3>
+          <p slot="message">{{description}}</p>
+          <div slot="opened">
+            <h2>{{title}}</h2>
+            <div class="pull-right">
+              <div>By: {{author.displayName}}</div>
+              <div>Published: {{publishDate}}</div>
+              <div class="clear"></div>
+            </div>
+            {{#each content}}
+              <p>{{text}}</p>
+            {{/each}}
+          </div>
+        </tngg-card>
+      {{/each}}
+    </tngg-feed>
+
+    <tngg-post></tngg-post>
+
+    <script type="module" src="/js/main.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.6.0/firebaseui.css" />
+
+    <script type="text/javascript">
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js');
+      }
+    </script>
+    <script src="/vendor/idb/lib/idb.js"></script>
+    <script src="/js/firebase.js"></script>
+  </body>
+</html>

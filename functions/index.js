@@ -1,8 +1,41 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const Handlebars = require('handlebars');
+const moment = require('moment');
+var fs = require('fs-sync');
 admin.initializeApp(functions.config().firebase);
 
 var newArticleTopic = 'new-article';
+
+exports.mainApp = functions.https.onRequest((req, res) => {
+  var file = fs.read('index.html').toString('utf-8');
+  // TODO Create a wrapper html file with the body of the html being filled out with a partial
+
+  admin.database().ref('/posts').once('value')
+  .then(postsSnapshot => postsSnapshot.val())
+  .then(posts => {
+    var promises = [ ];
+    for (postId in posts) {
+      var post = posts[postId];
+      promises.push(
+        admin.database().ref('/users/'+post.author).once('value')
+        .then(authorSnapshot => {
+          post.author = authorSnapshot.val()
+          return post;
+        })
+      );
+    }
+    return Promise.all(promises);
+  })
+  .then(posts => {
+    return posts.map(post => {
+      post.publishDate = moment(post.publishDate).format("MMMM D, YYYY");
+      return post;
+    });
+  })
+  .then(posts => res.status(200).send(Handlebars.compile(file)({posts: posts})))
+  .catch(e => console.log("An error occured while rendering app: " + e));
+});
 
 // The permissions node on the user needs to be protected so that only admins can update it.
 // Then, from an admin client updated the desired users "permissions" property to "admin" to give them the admin user claim.
