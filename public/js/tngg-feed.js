@@ -82,7 +82,6 @@ export default class TnggFeed extends LitElement {
               <h2>${post.title}</h2>
               <div class="pull-right">
                 <div>${post.author ? "By: " + post.author.displayName : ""}</div>
-                <div>Published ${formatDate(post.published)}</div>
               </div>
               <div class="clear">
                 ${post.content ? this._renderContent(post.content) : ""}
